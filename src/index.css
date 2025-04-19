@@ -1,0 +1,98 @@
+@import 'tailwindcss';
+
+:root {
+  /* Typography */
+  --primary-font: 'Poppins', sans-serif;
+  --secondary-font: 'Unbounded', sans-serif;
+  font-family: var(--primary-font);
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Rec from Coolors */
+  --primary-color: #792359;
+  --secondary-color: #41292c;
+  --accent-color: #d72483;
+  /* --background-color: #2f2d2e; */
+  --background-color: #f7f7f7;
+  --highlight-color: #fd3e81;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: var(--background-color);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  font-weight: 500;
+  color: var(--accent-color);
+  text-decoration: inherit;
+}
+a:hover {
+  color: var(--highlight-color);
+}
+
+h1 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button:not(.custom-button) {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s;
+}
+
+button:not(.custom-button):hover {
+  background-color: var(--highlight-color);
+}
+
+button:not(.custom-button):focus,
+button:not(.custom-button):focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: var(--secondary-color);
+    background-color: #ffffff;
+  }
+
+  a:hover {
+    color: var(--highlight-color);
+  }
+
+  button {
+    background-color: var(--accent-color);
+    color: white;
+  }
+}
