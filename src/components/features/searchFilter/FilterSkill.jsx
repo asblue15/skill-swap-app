@@ -1,140 +1,151 @@
-//dropdown filter for Skill && Skill type (want to learn | can teach) && Skill level
-import { useState, useEffect } from 'react';
-// for the redline ^^
-const FilterSkill = () => {
-// Filter states
-const [mockData, setMockData] = useState({})
-const [skill, setSkill] = useState('')
-const [type, setType] = useState('all')
-const [level, setLevel] = useState('') 
+import { useState } from 'react';
+import SearchBar from './SearchBar';
 
-//Derived states
-const [skillOptions, setSkillOptions] = useState([]);
-const levelOptions = ['beginner', 'intermediate', 'advanced'];
-const [filteredUsers, setFilteredUsers] = useState([]);
 
-// useEffect to populate skill options on mount
-useEffect(() => {
-    const skills = new Set();
+/*
+TODO:
+Usage of this component
+Display results based on the filter applied.
 
-    const fetchMockData = async () => {
-      try {
-        const res = await fetch('/data/mockData.json')
-        const data = await res.json();
-        setMockData(data);
-      } catch (error) {
-        console.log(error);
-      } 
-    }
-    fetchMockData()
 
-    mockData?.users.forEach(user => {
-        user.canTeach.forEach(s => skills.add(s.skill))
-        user.wantsToLearn.forEach(s => skills.add(s.skill))
+Feature enhancement:
+    1. clear filter button
+    2. remember previous filter (localStorage)
+    3. reponsive layout
+    4. add multiple-select
+    5. smart filter chips
+    6. unit test
+UI enhancement:
+    1.responsive design
+    2. add icons to the filter options
+    3. add hover effect to the filter options/tooptips
+    4. add animation to the filter options
+*/
+
+
+const FilterSkill = ({ data, onFilter }) => {
+  // State hooks for filter options
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [selectedLevel, setSelectedLevel] = useState('');
+  const [selectedType, setSelectedType] = useState('');
+  const [searchName, setSearchName] = useState('');
+
+
+  // Handle skill selection
+  const toggleSkillSelection = (skill) => {
+    setSelectedSkills((prevSkills) =>
+      prevSkills.includes(skill)
+        ? prevSkills.filter((s) => s !== skill) // Remove skill if already selected
+        : [...prevSkills, skill] // Add skill if not selected
+    );
+  };
+  // Handle filter apply click
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    onFilter({
+      skill: selectedSkills,
+      level: selectedLevel,
+      type: selectedType,
+      name: searchName.toLowerCase()
     });
-    setSkillOptions([...skills]);
-},[])
-console.log({mockData})
+  };
 
- // Filter users based on skill/type/level selection
- useEffect(() => {
-    const result = mockData?.users.filter(user => {
-      const matches = [];
-
-      if (type === 'canTeach' || type === 'all') {
-        matches.push(
-          user.canTeach.some(
-            s =>
-              (!skill || s.skill === skill) &&
-              (!level || s.level === level)
-          )
-        );
-      }
-
-      if (type === 'wantsToLearn' || type === 'all') {
-        matches.push(
-          user.wantsToLearn.some(
-            s =>
-              (!skill || s.skill === skill) &&
-              (!level || s.level === level)
-          )
-        );
-      }
-
-      return matches.includes(true);
-    });
-
-    setFilteredUsers(result);
-  }, [skill, type, level]);
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-    <h2 className="text-2xl font-bold mb-4">Find Users by Skill</h2>
+    //Submit here in form to allow user enter + click button
+    <form className="p-4 border rounded-lg shadow-md space-y-4 bg-white max-w-md"
+    onSubmit= {handleSubmit}
+    >
+      <h2 className="text-lg font-semibold">User Filter</h2>
 
-    {/* Filter Controls */}
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-      {/* Skill Dropdown */}
-      <select
-        value={skill}
-        onChange={e => setSkill(e.target.value)}
-        className="border p-2 rounded"
-      >
-        <option value="">All Skills</option>
-        {skillOptions.map(skill => (
-          <option key={skill} value={skill}>
-            {skill}
-          </option>
-        ))}
-      </select>
 
-      {/* Type Dropdown */}
-      <select
-        value={type}
-        onChange={e => setType(e.target.value)}
-        className="border p-2 rounded"
-      >
-        <option value="all">Teach & Learn</option>
-        <option value="canTeach">Can Teach</option>
-        <option value="wantsToLearn">Wants to Learn</option>
-      </select>
-
-      {/* Level Dropdown */}
-      <select
-        value={level}
-        onChange={e => setLevel(e.target.value)}
-        className="border p-2 rounded"
-      >
-        <option value="">Any Level</option>
-        {levelOptions.map(level => (
-          <option key={level} value={level}>
-            {level.charAt(0).toUpperCase() + level.slice(1)}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    {/* Filtered Users Display */}
-    <div>
-      {filteredUsers.length > 0 ? (
-        filteredUsers.map(user => (
-          <div key={user.id} className="border p-4 rounded mb-3 shadow-sm">
-            <h3 className="text-lg font-semibold">{user.name}</h3>
-            <p className="text-sm">
-              <strong>Can Teach:</strong>{' '}
-              {user.canTeach.map(s => `${s.skill} (${s.level})`).join(', ') || 'None'}
-            </p>
-            <p className="text-sm">
-              <strong>Wants to Learn:</strong>{' '}
-              {user.wantsToLearn.map(s => `${s.skill} (${s.level})`).join(', ') || 'None'}
-            </p>
+      {/* Name Search - <SearchBar/> here */}
+      <SearchBar value={searchName} onChange={setSearchName} />
+     
+      {/* Skill Category + Skill Selection */}
+      <div>
+        <label className="block font-medium mb-1">Skill Category</label>
+        {data.categories.map(category => (
+          <div key={category.id}>
+            <button
+              type="button"
+              className={`font-semibold ${selectedCategoryId === category.id ? 'text-blue-600' : ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setSelectedCategoryId(category.id);
+                setSelectedSkills([]);
+              }}
+            >
+              {category.name}
+            </button>
+            {/* Nested Skill List */}
+            {selectedCategoryId === category.id && (
+              <ul className="ml-4 mt-1 space-y-1">
+                {category.skills.map(skill => (
+                  <li key={skill}>
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        name="skill"
+                        value={skill}
+                        checked={selectedSkills.includes(skill)} // checked if skill is in selectedSkills
+                        onChange={() => toggleSkillSelection(skill)} // toggle skill selection
+                      />
+                      {skill}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-        ))
-      ) : (
-        <p className="text-gray-500 text-center mt-6">No users found with current filters.</p>
-      )}
-    </div>
-  </div>
-  )
-}
+        ))}
+      </div>
 
-export default FilterSkill
+
+      {/* Skill Level Dropdown */}
+      <div>
+        <label className="block font-medium mb-1">Skill Level</label>
+        <select
+          value={selectedLevel}
+          onChange={(e) => setSelectedLevel(e.target.value)}
+          className="w-full border px-2 py-1 rounded"
+        >
+          <option value="">All Levels</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+
+
+      {/* Skill Type Dropdown */}
+      <div>
+        <label className="block font-medium mb-1">Skill Type</label>
+        <select
+          value={selectedType}
+          onChange={(e) => setSelectedType(e.target.value)}
+          className="w-full border px-2 py-1 rounded"
+        >
+          <option value="">All Types</option>
+          <option value="canTeach">canTeach</option>
+          <option value="wantsToLearn">wantsToLearn</option>
+        </select>
+      </div>
+
+
+      {/* Apply Button */}
+      <button
+     
+        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+      >
+        Apply Filter
+      </button>
+    </form>
+  );
+};
+
+
+export default FilterSkill;
+
+
