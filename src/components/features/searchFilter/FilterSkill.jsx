@@ -1,28 +1,33 @@
 import { useState } from 'react';
 import SearchBar from './SearchBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch, faTimes, faCheck, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 
 /*
 TODO:
-Usage of this component
-Display results based on the filter applied.
+Usage of this component: fetch data from parent component and pass it as props to this component.
+Display results based on the filter applied: 
 
 
-Feature enhancement:
-    1. clear filter button
-    2. remember previous filter (localStorage)
-    3. reponsive layout
-    4. add multiple-select
-    5. smart filter chips
-    6. unit test
-UI enhancement:
-    1.responsive design
-    2. add icons to the filter options
-    3. add hover effect to the filter options/tooptips
-    4. add animation to the filter options
+Functionality enhancement:
+    1. clear filter button - DONE
+    2. remember previous filter (localStorage) - optional
+    3. add multiple-select - DONE
+    4. add real-time validation for this form - semi-DONE
+    5. unit test
+UI/UX enhancement:
+    1. responsive design && improve accessibility 
+    2. refine tailwind classes to align with the whole app
+    3. add icons to the filter options - DONE
+    4. add hover effect to the filter options/tooptips
+    5. add animation to the filter options - optinal
+    6. replace alert with modal
+Refactoring and optimization: 
 */
 
-
+// {data} is fetched data from parent pass down. 
+// {onFilter} a cb to pass the selected filters to the parent component.
 const FilterSkill = ({ data, onFilter }) => {
   // State hooks for filter options
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
@@ -40,15 +45,30 @@ const FilterSkill = ({ data, onFilter }) => {
         : [...prevSkills, skill] // Add skill if not selected
     );
   };
-  // Handle filter apply click
+  // Handle filter submit
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    // Validate filters
+    if (!selectedSkills.length && !selectedLevel && !selectedType && !searchName) {
+      //alert can be annoying, consider using a toast notification or modal instead
+      alert('Please select at least one filter option')
+      return
+    }
     onFilter({
       skill: selectedSkills,
       level: selectedLevel,
       type: selectedType,
       name: searchName.toLowerCase()
     });
+  };
+  // Handle filter reset
+  const handleResetFilter = () => {
+    setSelectedCategoryId(null);
+    setSelectedSkills([]);
+    setSelectedLevel('');
+    setSelectedType('');
+    setSearchName('');
   };
 
 
@@ -61,7 +81,16 @@ const FilterSkill = ({ data, onFilter }) => {
 
 
       {/* Name Search - <SearchBar/> here */}
-      <SearchBar value={searchName} onChange={setSearchName} />
+      <div>
+  <label className="block font-medium mb-1">Search</label>
+  <div className="flex items-center gap-2">
+    <FontAwesomeIcon icon={faSearch} className="text-gray-500" />
+    <SearchBar value={searchName} onChange={setSearchName} />
+  </div>
+  {searchName && searchName.length < 3 && (
+    <p className="text-red-500 text-sm">Search name must be at least 3 characters long.</p>
+  )}
+    </div>
      
       {/* Skill Category + Skill Selection */}
       <div>
@@ -77,6 +106,7 @@ const FilterSkill = ({ data, onFilter }) => {
                 setSelectedSkills([]);
               }}
             >
+              <FontAwesomeIcon icon={faFilter} />
               {category.name}
             </button>
             {/* Nested Skill List */}
@@ -92,6 +122,7 @@ const FilterSkill = ({ data, onFilter }) => {
                         checked={selectedSkills.includes(skill)} // checked if skill is in selectedSkills
                         onChange={() => toggleSkillSelection(skill)} // toggle skill selection
                       />
+                      <FontAwesomeIcon icon={faCheck} className="text-green-500" />
                       {skill}
                     </label>
                   </li>
@@ -140,6 +171,19 @@ const FilterSkill = ({ data, onFilter }) => {
         className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
       >
         Apply Filter
+      </button>
+      <button
+        type="button"
+        className={`bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 ${
+          !selectedSkills.length && !selectedLevel && !selectedType && !searchName
+            ? 'opacity-50 cursor-not-allowed'
+            : ''
+        }`}
+        onClick={handleResetFilter}
+        disabled={!selectedSkills.length && !selectedLevel && !selectedType && !searchName}
+      >
+        <FontAwesomeIcon icon={faTimes} />
+        Clear
       </button>
     </form>
   );
