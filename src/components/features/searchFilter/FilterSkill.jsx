@@ -24,9 +24,7 @@ useEffect(() => {
         setMockData(data);
       } catch (error) {
         console.log(error);
-      } finally {
-        setLoadingUsers(false)
-      }
+      } 
     }
     fetchMockData()
 
