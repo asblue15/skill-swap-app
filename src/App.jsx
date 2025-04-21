@@ -1,4 +1,9 @@
 import './App.css';
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
 
 // Import shared components
 import Button from './components/shared/Button';
@@ -6,6 +11,8 @@ import UserCard from './components/shared/UserCard';
 import Footer from './components/shared/Footer';
 import Spinner from './components/shared/Spinner';
 import Toast from './components/shared/Toast';
+import {SearchPage} from './pages';
+
 
 // Import layout components
 import Nav from './components/layout/Nav';
@@ -37,8 +44,13 @@ function App() {
         <Nav />
 
         {/* Main Content - will flex-grow to push footer down */}
+        <BrowserRouter>
+          <Routes>
+            <Route path="/search" element={<SearchPage />} />
+          </Routes>
         <main className="flex-grow">
           <div className="container mx-auto p-6 mt-10">
+            <Button content='To search and filter' navigateLink='/search'/>
             <h1 className="text-red-500 mb-4">Font mình dùng: Unbounded h1</h1>
             <p className="text-red-500 mb-4">còn lại popins</p>
             <p className="text-red-500 mb-4 p-10">
@@ -50,7 +62,7 @@ function App() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Button Component */}
               <div className="flex flex-col items-center">
-                <Button />
+                <Button content='Start session' navigate='/'/>
                 <p className="mt-2 text-center text-gray-500">
                   This is a custom button with animations and effects.
                 </p>
@@ -86,7 +98,9 @@ function App() {
             </div>
           </div>
         </main>
+        </BrowserRouter>
       </div>
+      
       <Footer />
     </>
   );

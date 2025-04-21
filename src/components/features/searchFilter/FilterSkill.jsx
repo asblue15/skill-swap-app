@@ -1,9 +1,9 @@
 //dropdown filter for Skill && Skill type (want to learn | can teach) && Skill level
 import { useState, useEffect } from 'react';
 // for the redline ^^
-const mockData = {}
 const FilterSkill = () => {
 // Filter states
+const [mockData, setMockData] = useState({})
 const [skill, setSkill] = useState('')
 const [type, setType] = useState('all')
 const [level, setLevel] = useState('') 
@@ -16,13 +16,28 @@ const [filteredUsers, setFilteredUsers] = useState([]);
 // useEffect to populate skill options on mount
 useEffect(() => {
     const skills = new Set();
-    //mockData | make a fetch to get users []
+
+    const fetchMockData = async () => {
+      try {
+        const res = await fetch('/data/mockData.json')
+        const data = await res.json();
+        setMockData(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoadingUsers(false)
+      }
+    }
+    fetchMockData()
+
     mockData?.users.forEach(user => {
         user.canTeach.forEach(s => skills.add(s.skill))
         user.wantsToLearn.forEach(s => skills.add(s.skill))
     });
     setSkillOptions([...skills]);
 },[])
+console.log({mockData})
+
  // Filter users based on skill/type/level selection
  useEffect(() => {
     const result = mockData?.users.filter(user => {
