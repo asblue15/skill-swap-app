@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faTimes, faCheck, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 
 /*
@@ -29,7 +29,7 @@ Refactoring and optimization:
 // {onFilter} a cb to pass the selected filters to the parent component.
 const FilterSkill = ({ data, onFilter }) => {
   // State hooks for filter options
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  // const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState('');
   const [selectedType, setSelectedType] = useState('');
@@ -64,7 +64,7 @@ const FilterSkill = ({ data, onFilter }) => {
   };
   // Handle filter reset
   const handleResetFilter = () => {
-    setSelectedCategoryId(null);
+    // setSelectedCategoryId(null);
     setSelectedSkills([]);
     setSelectedLevel('');
     setSelectedType('');
