@@ -1,19 +1,24 @@
+import logo from '../../assets/logo1.png';
 export default function Footer() {
   return (
-    <footer className=" text-gray-800 w-full mt-auto">
-      <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
-
-        <div className="flex flex-col md:flex-row md:justify-between">
-          <div className="flex items-center mb-4">
-            <img src="src/assets/skillshare.svg" className="h-8 mr-3" alt="SkillSwapLite Logo" />
-            <span className="self-center text-xl font-semibold whitespace-nowrap">
-              SkillSwapLite
-            </span>
+    <footer className="text-gray-800 w-full mt-auto">
+      {/* <hr className="my-4 border-gray-200" /> */}
+      <div className="max-w-screen-xl mx-auto px-4 py-4 grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+        {/* logo & name */}
+        <div className="flex items-center justify-center md:justify-start gap-2">
+          <img src={logo} className="h-10" alt="SkillSwapLite Logo" />
+          <div className="text-left">
+            <p className="text-lg font-semibold" style={{ fontFamily: 'var(--secondary-font)' }}>
+              SkillSwap Lite
+            </p>
+            <p className="text-sm text-gray-500">Connect, learn, teach and repeat.</p>
           </div>
+        </div>
 
-          <div className="flex mb-4 md:mb-0">
-            <a href="#" className="text-gray-500 hover:text-pink-500 mr-4">
+        {/* icons */}
+        <div className="flex justify-center">
+          <div className="flex gap-4">
+            <a href="#" className="text-gray-500 hover:text-pink-500 transition">
               <span className="sr-only">Facebook</span>
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path
@@ -23,7 +28,7 @@ export default function Footer() {
                 />
               </svg>
             </a>
-            <a href="#" className="text-gray-500 hover:text-pink-500 mr-4">
+            <a href="#" className="text-gray-500 hover:text-pink-500 transition">
               <span className="sr-only">Instagram</span>
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path
@@ -33,24 +38,24 @@ export default function Footer() {
                 />
               </svg>
             </a>
-            <a href="#" className="text-gray-500 hover:text-pink-500 mr-4">
+            <a href="#" className="text-gray-500 hover:text-pink-500 transition">
               <span className="sr-only">Twitter</span>
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
               </svg>
             </a>
           </div>
+        </div>
 
-          <div className="text-sm text-gray-500">
-            © 2025 SkillSwapLite™. All Rights Reserved.
-            <div className="flex mt-2 space-x-4">
-              <a href="#" className="hover:text-pink-500">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-pink-500">
-                Terms of Service
-              </a>
-            </div>
+        {/* Links */}
+        <div className="flex flex-col items-center md:items-end">
+          <div className="flex gap-4 text-sm">
+            <a href="#" className="hover:text-pink-500">
+              Privacy Policy
+            </a>
+            <a href="#" className="hover:text-pink-500">
+              Terms of Service
+            </a>
           </div>
         </div>
       </div>

@@ -14,8 +14,34 @@
       "id": "cat3",
       "name": "Marketing",
       "skills": ["SEO", "Social Media", "Email Marketing"]
+    },
+    {
+      "id": "cat4",
+      "name": "Writing",
+      "skills": ["Creative Writing", "Technical Writing", "Copywriting"]
+    },
+    {
+      "id": "cat5",
+      "name": "Business",
+      "skills": ["Entrepreneurship", "Finance", "Project Management"]
+    },
+    {
+      "id": "cat6",
+      "name": "Music",
+      "skills": ["Guitar", "Piano", "Music Production"]
+    },
+    {
+      "id": "cat7",
+      "name": "Art",
+      "skills": ["Drawing", "Painting", "Digital Art"]
+    },
+    {
+      "id": "cat8",
+      "name": "Language",
+      "skills": ["English", "Spanish", "Mandarin"]
     }
   ],
+
   "users": [
     {
       "id": "u1",
@@ -27,12 +53,12 @@
       "instagram": "https://instagram.com/alice",
       "x": "https://x.com/alice",
       "canTeach": [
-        { "skill": "JavaScript", "level": "advanced" },
-        { "skill": "UI/UX", "level": "intermediate" }
+        { "skill": "JavaScript", "level": "Advanced" },
+        { "skill": "UI/UX", "level": "Intermediate" }
       ],
       "wantsToLearn": [
-        { "skill": "Python", "level": "beginner" },
-        { "skill": "SEO", "level": "beginner" }
+        { "skill": "Python", "level": "Beginner" },
+        { "skill": "SEO", "level": "Beginner" }
       ],
       "connections": ["u2"],
       "requestSent": ["u3"],
@@ -56,10 +82,10 @@
       "instagram": "https://instagram.com/bob",
       "x": "https://x.com/bob",
       "canTeach": [
-        { "skill": "Python", "level": "advanced" },
-        { "skill": "SEO", "level": "intermediate" }
+        { "skill": "Python", "level": "Advanced" },
+        { "skill": "SEO", "level": "Intermediate" }
       ],
-      "wantsToLearn": [{ "skill": "JavaScript", "level": "beginner" }],
+      "wantsToLearn": [{ "skill": "JavaScript", "level": "Beginner" }],
       "connections": ["u1"],
       "requestSent": ["u1"],
       "requestReceived": [],
@@ -75,12 +101,12 @@
       "instagram": "https://instagram.com/charlie",
       "x": "https://x.com/charlie",
       "canTeach": [
-        { "skill": "Figma", "level": "advanced" },
-        { "skill": "Graphic Design", "level": "intermediate" }
+        { "skill": "Figma", "level": "Advanced" },
+        { "skill": "Graphic Design", "level": "Intermediate" }
       ],
       "wantsToLearn": [
-        { "skill": "UI/UX", "level": "beginner" },
-        { "skill": "JavaScript", "level": "beginner" }
+        { "skill": "UI/UX", "level": "Beginner" },
+        { "skill": "JavaScript", "level": "Beginner" }
       ],
       "connections": [],
       "requestSent": [],
@@ -96,8 +122,8 @@
       "facebook": "https://facebook.com/david",
       "instagram": "https://instagram.com/david",
       "x": "https://x.com/david",
-      "canTeach": [{ "skill": "Social Media", "level": "expert" }],
-      "wantsToLearn": [{ "skill": "Python", "level": "intermediate" }],
+      "canTeach": [{ "skill": "Social Media", "level": "Expert" }],
+      "wantsToLearn": [{ "skill": "Python", "level": "Intermediate" }],
       "connections": ["u1"],
       "requestSent": [],
       "requestReceived": [],
@@ -113,7 +139,7 @@
       "instagram": "https://instagram.com/eve",
       "x": "https://x.com/eve",
       "canTeach": [],
-      "wantsToLearn": [{ "skill": "SEO", "level": "beginner" }],
+      "wantsToLearn": [{ "skill": "SEO", "level": "Beginner" }],
       "connections": [],
       "requestSent": ["u3"],
       "requestReceived": [],
