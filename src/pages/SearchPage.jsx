@@ -131,11 +131,32 @@ function SearchPage() {
   const [searchName, setSearchName] = useState('');
   const [filteredUsers, setFilteredUsers] = useState(users);
 
+  const handleSearchChange = (value) => {
+    setSearchName(value);
+  
+    // Filter users by name
+    const filteredByName = users.filter((user) =>
+      user.name.toLowerCase().includes(value.toLowerCase())
+    );
+  
+    // Combine with existing filters if filters are applied
+    if(value && value.length >= 3) {
+      onFilter({ skill: [], level: '', type: '' });
+    }else{
+      setFilteredUsers(filteredByName);
+    }
+    
+  }
+
   const onFilter = (dataObject) => {
     const { skill, level, type } = dataObject
 
     setFilteredUsers(users.filter(user => {
-      // Get the relevant array (canTeach or wantsToLearn)
+       // Filter by name if provided
+       if (searchName && !user.name.toLowerCase().includes(searchName.toLowerCase())) {
+        return false;
+      }
+      // filter by skill and level, and type
       let skillsArray = []
       if (type) { //If there is a specific type
         skillsArray = user[type];
@@ -149,12 +170,12 @@ function SearchPage() {
         return skillsArray.some((item) =>
           skill.includes(item.skill) && item.level === level
         );
-      } else {
+      } else if(skill.length > 0) {
         return skillsArray.some((item) =>
           skill.includes(item.skill)
         );
       }
-
+     return true; // If no filters are applied, return all users
     }))
     console.log(filteredUsers)
   }
@@ -166,18 +187,28 @@ function SearchPage() {
       <div className='flex w-full items-center justify-center'>
         <div className='text-[#2F2D2E]'>
           <div className="flex items-center gap-2">
-            <SearchBar value={searchName} onChange={setSearchName} />
+            <SearchBar value={searchName} onChange={handleSearchChange} />
           </div>
           {searchName && searchName.length < 3 && (
-            <p className="text-red-500 text-sm">Search name must be at least 3 characters long.</p>
+            <p className="text-red-500 text-sm">Name must be at least 3 characters long.</p>
           )}
         </div>
         <FilterSkill data={data} onFilter={onFilter} />
       </div>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6'>
-        {filteredUsers.map(user => (
-          <UserCard key={user.id} user={user} />
-        ))}
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map((user) => (
+            <UserCard
+              key={user.id}
+              user = {user}
+            />
+          ))
+        ) : (
+          <div className="col-span-full text-center text-gray-500">
+          <p className="text-lg font-semibold">No results found.</p>
+          <p className="text-sm">Try adjusting your search or filter criteria.</p>
+        </div>
+        )}
       </div>
     </div>
   );

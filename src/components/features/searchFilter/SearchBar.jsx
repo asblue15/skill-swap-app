@@ -20,6 +20,8 @@ const SearchBar = ({ value, onChange }) => {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className="w-full border px-10 py-1 rounded"
+          aria-label="Search by name"
+          role="searchbox"
         />
       </div>
     </div>

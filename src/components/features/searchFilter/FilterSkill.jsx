@@ -75,7 +75,7 @@ const FilterSkill = ({ data, onFilter }) => {
 
     <div>
 
-      <div className={`w-fit h-fit border p-2 rounded-lg flex cursor-pointer ${isFilterToggled ? 'bg-[#41292C] hover:bg-[#792359]' : 'bg-[#792359] hover:bg-[#41292C]'}`} onClick={() => setIsFilterToggled(!isFilterToggled)}>
+      <div className={`w-fit h-fit border p-2 rounded-lg flex items-center justify-center cursor-pointer ${isFilterToggled ? 'bg-[#41292C] hover:bg-[#792359]' : 'bg-[#792359] hover:bg-[#41292C]'}`} onClick={() => setIsFilterToggled(!isFilterToggled)}>
         <FontAwesomeIcon icon={faFilter} />
       </div>
 
@@ -141,8 +141,8 @@ const FilterSkill = ({ data, onFilter }) => {
                     className="w-full border px-2 py-1 rounded"
                   >
                     <option value="">All Types</option>
-                    <option value="canTeach">canTeach</option>
-                    <option value="wantsToLearn">wantsToLearn</option>
+                    <option value="Teach">Teach</option>
+                    <option value="Learn">Learn</option>
                   </select>
                 </div>
               </div>
@@ -162,6 +162,7 @@ const FilterSkill = ({ data, onFilter }) => {
                     }`}
                   onClick={handleResetFilter}
                   disabled={!selectedSkills.length && !selectedLevel && !selectedType}
+                  aria-lable = "Clear filter"
                 >
                   <FontAwesomeIcon icon={faTimes} />
                   Clear
