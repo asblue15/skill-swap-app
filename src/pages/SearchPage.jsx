@@ -1,137 +1,186 @@
-import {FilterSkill, SearchBar} from '../components/features/searchFilter';
-
+import { FilterSkill, SearchBar } from '../components/features/searchFilter';
+import { useState } from 'react';
+import UserCard from '../components/shared/UserCard'
 const data = {
-    "categories": [
-      {
-        "id": "cat1",
-        "name": "Programming",
-        "skills": ["JavaScript", "Python", "Java"]
-      },
-      {
-        "id": "cat2",
-        "name": "Design",
-        "skills": ["UI/UX", "Graphic Design", "Figma"]
-      },
-      {
-        "id": "cat3",
-        "name": "Marketing",
-        "skills": ["SEO", "Social Media", "Email Marketing"]
-      }
-    ],
-    "users": [
-      {
-        "id": "u1",
-        "name": "Alice",
-        "email": "alice@example.com",
-        "profilePicture": "/images/profiles/alice.jpg",
-        "bio": "Passionate about web development and design. I love creating beautiful and functional web applications.",
-        "facebook": "https://facebook.com/alice",
-        "instagram": "https://instagram.com/alice",
-        "x": "https://x.com/alice",
-        "canTeach": [
-          { "skill": "JavaScript", "level": "advanced" },
-          { "skill": "UI/UX", "level": "intermediate" }
-        ],
-        "wantsToLearn": [
-          { "skill": "Python", "level": "beginner" },
-          { "skill": "SEO", "level": "beginner" }
-        ],
-        "connections": ["u2"],
-        "requestSent": ["u3"],
-        "requestReceived": ["u2"],
-        "notifications": [
-          {
-            "type": "match",
-            "from": "u2",
-            "timestamp": "2025-04-19T13:15:00Z",
-            "message": "You matched with Bob!"
-          }
-        ]
-      },
-      {
-        "id": "u2",
-        "name": "Bob",
-        "email": "bob@example.com",
-        "profilePicture": "/images/profiles/bob.jpg",
-        "bio": "Full-stack developer with a passion for creating robust and scalable web applications.",
-        "facebook": "https://facebook.com/bob",
-        "instagram": "https://instagram.com/bob",
-        "x": "https://x.com/bob",
-        "canTeach": [
-          { "skill": "Python", "level": "advanced" },
-          { "skill": "SEO", "level": "intermediate" }
-        ],
-        "wantsToLearn": [{ "skill": "JavaScript", "level": "beginner" }],
-        "connections": ["u1"],
-        "requestSent": ["u1"],
-        "requestReceived": [],
-        "notifications": []
-      },
-      {
-        "id": "u3",
-        "name": "Charlie",
-        "email": "charlie@example.com",
-        "profilePicture": "/images/profiles/charlie.jpg",
-        "bio": "Graphic designer and Figma expert, focusing on creating modern, user-friendly designs.",
-        "facebook": "https://facebook.com/charlie",
-        "instagram": "https://instagram.com/charlie",
-        "x": "https://x.com/charlie",
-        "canTeach": [
-          { "skill": "Figma", "level": "advanced" },
-          { "skill": "Graphic Design", "level": "intermediate" }
-        ],
-        "wantsToLearn": [
-          { "skill": "UI/UX", "level": "beginner" },
-          { "skill": "JavaScript", "level": "beginner" }
-        ],
-        "connections": [],
-        "requestSent": [],
-        "requestReceived": ["u1"],
-        "notifications": []
-      },
-      {
-        "id": "u4",
-        "name": "David",
-        "email": "david@example.com",
-        "profilePicture": "/images/profiles/david.jpg",
-        "bio": "Social media expert with an eye for strategy, helping brands grow through creative marketing.",
-        "facebook": "https://facebook.com/david",
-        "instagram": "https://instagram.com/david",
-        "x": "https://x.com/david",
-        "canTeach": [{ "skill": "Social Media", "level": "expert" }],
-        "wantsToLearn": [{ "skill": "Python", "level": "intermediate" }],
-        "connections": ["u1"],
-        "requestSent": [],
-        "requestReceived": [],
-        "notifications": []
-      },
-      {
-        "id": "u5",
-        "name": "Eve",
-        "email": "eve@example.com",
-        "profilePicture": "/images/profiles/eve.jpg",
-        "bio": "Aspiring SEO specialist with a passion for improving search rankings and digital visibility.",
-        "facebook": "https://facebook.com/eve",
-        "instagram": "https://instagram.com/eve",
-        "x": "https://x.com/eve",
-        "canTeach": [],
-        "wantsToLearn": [{ "skill": "SEO", "level": "beginner" }],
-        "connections": [],
-        "requestSent": ["u3"],
-        "requestReceived": [],
-        "notifications": []
-      }
-    ]
-  }
-  
+  "categories": [
+    {
+      "id": "cat1",
+      "name": "Programming",
+      "skills": ["JavaScript", "Python", "Java"]
+    },
+    {
+      "id": "cat2",
+      "name": "Design",
+      "skills": ["UI/UX", "Graphic Design", "Figma"]
+    },
+    {
+      "id": "cat3",
+      "name": "Marketing",
+      "skills": ["SEO", "Social Media", "Email Marketing"]
+    }
+  ],
+  "users": [
+    {
+      "id": "u1",
+      "name": "Alice",
+      "email": "alice@example.com",
+      "profilePicture": "/images/profiles/alice.jpg",
+      "bio": "Passionate about web development and design. I love creating beautiful and functional web applications.",
+      "facebook": "https://facebook.com/alice",
+      "instagram": "https://instagram.com/alice",
+      "x": "https://x.com/alice",
+      "canTeach": [
+        { "skill": "JavaScript", "level": "advanced" },
+        { "skill": "UI/UX", "level": "intermediate" }
+      ],
+      "wantsToLearn": [
+        { "skill": "Python", "level": "beginner" },
+        { "skill": "SEO", "level": "beginner" }
+      ],
+      "connections": ["u2"],
+      "requestSent": ["u3"],
+      "requestReceived": ["u2"],
+      "notifications": [
+        {
+          "type": "match",
+          "from": "u2",
+          "timestamp": "2025-04-19T13:15:00Z",
+          "message": "You matched with Bob!"
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "name": "Bob",
+      "email": "bob@example.com",
+      "profilePicture": "/images/profiles/bob.jpg",
+      "bio": "Full-stack developer with a passion for creating robust and scalable web applications.",
+      "facebook": "https://facebook.com/bob",
+      "instagram": "https://instagram.com/bob",
+      "x": "https://x.com/bob",
+      "canTeach": [
+        { "skill": "Python", "level": "advanced" },
+        { "skill": "SEO", "level": "intermediate" }
+      ],
+      "wantsToLearn": [{ "skill": "JavaScript", "level": "beginner" }],
+      "connections": ["u1"],
+      "requestSent": ["u1"],
+      "requestReceived": [],
+      "notifications": []
+    },
+    {
+      "id": "u3",
+      "name": "Charlie",
+      "email": "charlie@example.com",
+      "profilePicture": "/images/profiles/charlie.jpg",
+      "bio": "Graphic designer and Figma expert, focusing on creating modern, user-friendly designs.",
+      "facebook": "https://facebook.com/charlie",
+      "instagram": "https://instagram.com/charlie",
+      "x": "https://x.com/charlie",
+      "canTeach": [
+        { "skill": "Figma", "level": "advanced" },
+        { "skill": "Graphic Design", "level": "intermediate" }
+      ],
+      "wantsToLearn": [
+        { "skill": "UI/UX", "level": "beginner" },
+        { "skill": "JavaScript", "level": "beginner" }
+      ],
+      "connections": [],
+      "requestSent": [],
+      "requestReceived": ["u1"],
+      "notifications": []
+    },
+    {
+      "id": "u4",
+      "name": "David",
+      "email": "david@example.com",
+      "profilePicture": "/images/profiles/david.jpg",
+      "bio": "Social media expert with an eye for strategy, helping brands grow through creative marketing.",
+      "facebook": "https://facebook.com/david",
+      "instagram": "https://instagram.com/david",
+      "x": "https://x.com/david",
+      "canTeach": [{ "skill": "Social Media", "level": "expert" }],
+      "wantsToLearn": [{ "skill": "Python", "level": "intermediate" }],
+      "connections": ["u1"],
+      "requestSent": [],
+      "requestReceived": [],
+      "notifications": []
+    },
+    {
+      "id": "u5",
+      "name": "Eve",
+      "email": "eve@example.com",
+      "profilePicture": "/images/profiles/eve.jpg",
+      "bio": "Aspiring SEO specialist with a passion for improving search rankings and digital visibility.",
+      "facebook": "https://facebook.com/eve",
+      "instagram": "https://instagram.com/eve",
+      "x": "https://x.com/eve",
+      "canTeach": [],
+      "wantsToLearn": [{ "skill": "SEO", "level": "beginner" }],
+      "connections": [],
+      "requestSent": ["u3"],
+      "requestReceived": [],
+      "notifications": []
+    }
+  ]
+}
+
 function SearchPage() {
-    return (
-        <div className="p-6 max-w-2xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4">Search Page</h1>
-        <SearchBar />
-        <FilterSkill data={data}/>
+  const users = data.users
+
+  const [searchName, setSearchName] = useState('');
+  const [filteredUsers, setFilteredUsers] = useState(users);
+
+  const onFilter = (dataObject) => {
+    const { skill, level, type } = dataObject
+
+    setFilteredUsers(users.filter(user => {
+      // Get the relevant array (canTeach or wantsToLearn)
+      let skillsArray = []
+      if (type) { //If there is a specific type
+        skillsArray = user[type];
+        if (!skillsArray) return false;
+      } else { //If all types are selected
+        skillsArray = [...user.canTeach, ...user.wantsToLearn];
+      }
+
+      if (level) {
+        //Check if the user has both the skill and the level
+        return skillsArray.some((item) =>
+          skill.includes(item.skill) && item.level === level
+        );
+      } else {
+        return skillsArray.some((item) =>
+          skill.includes(item.skill)
+        );
+      }
+
+    }))
+    console.log(filteredUsers)
+  }
+
+
+  return (
+    <div className="p-6 pt-20 w-full flex flex-col">
+      <h2 className="text-4xl font-semibold mb-4 text-[#2F2D2E]">Search Page</h2>
+      <div className='flex w-full items-center justify-center'>
+        <div className='text-[#2F2D2E]'>
+          <div className="flex items-center gap-2">
+            <SearchBar value={searchName} onChange={setSearchName} />
+          </div>
+          {searchName && searchName.length < 3 && (
+            <p className="text-red-500 text-sm">Search name must be at least 3 characters long.</p>
+          )}
         </div>
-    );
+        <FilterSkill data={data} onFilter={onFilter} />
+      </div>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6'>
+        {filteredUsers.map(user => (
+          <UserCard key={user.id} user={user} />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default SearchPage;

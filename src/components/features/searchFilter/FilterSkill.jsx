@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import SearchBar from './SearchBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faTimes, faCheck, faFilter } from '@fortawesome/free-solid-svg-icons';
 
@@ -34,7 +33,8 @@ const FilterSkill = ({ data, onFilter }) => {
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState('');
   const [selectedType, setSelectedType] = useState('');
-  const [searchName, setSearchName] = useState('');
+
+  const [isFilterToggled, setIsFilterToggled] = useState(false); // State to track if filter is toggled
 
 
   // Handle skill selection
@@ -48,9 +48,10 @@ const FilterSkill = ({ data, onFilter }) => {
   // Handle filter submit
   const handleSubmit = (e) => {
     e.preventDefault()
+    setIsFilterToggled(false); // Close the filter dropdown
 
     // Validate filters
-    if (!selectedSkills.length && !selectedLevel && !selectedType && !searchName) {
+    if (!selectedSkills.length && !selectedLevel && !selectedType) {
       //alert can be annoying, consider using a toast notification or modal instead
       alert('Please select at least one filter option')
       return
@@ -59,7 +60,6 @@ const FilterSkill = ({ data, onFilter }) => {
       skill: selectedSkills,
       level: selectedLevel,
       type: selectedType,
-      name: searchName.toLowerCase()
     });
   };
   // Handle filter reset
@@ -68,124 +68,113 @@ const FilterSkill = ({ data, onFilter }) => {
     setSelectedSkills([]);
     setSelectedLevel('');
     setSelectedType('');
-    setSearchName('');
   };
-
 
   return (
     //Submit here in form to allow user enter + click button
-    <form className="p-4 border rounded-lg shadow-md space-y-4 bg-white max-w-md"
-    onSubmit= {handleSubmit}
-    >
-      <h2 className="text-lg font-semibold">User Filter</h2>
 
+    <div>
 
-      {/* Name Search - <SearchBar/> here */}
-      <div>
-  <label className="block font-medium mb-1">Search</label>
-  <div className="flex items-center gap-2">
-    <FontAwesomeIcon icon={faSearch} className="text-gray-500" />
-    <SearchBar value={searchName} onChange={setSearchName} />
-  </div>
-  {searchName && searchName.length < 3 && (
-    <p className="text-red-500 text-sm">Search name must be at least 3 characters long.</p>
-  )}
-    </div>
-     
-      {/* Skill Category + Skill Selection */}
-      <div>
-        <label className="block font-medium mb-1">Skill Category</label>
-        {data.categories.map(category => (
-          <div key={category.id}>
-            <button
-              type="button"
-              className={`font-semibold ${selectedCategoryId === category.id ? 'text-blue-600' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                setSelectedCategoryId(category.id);
-                setSelectedSkills([]);
-              }}
+      <div className={`w-fit h-fit border p-2 rounded-lg flex cursor-pointer ${isFilterToggled ? 'bg-[#41292C] hover:bg-[#792359]' : 'bg-[#792359] hover:bg-[#41292C]'}`} onClick={() => setIsFilterToggled(!isFilterToggled)}>
+        <FontAwesomeIcon icon={faFilter} />
+      </div>
+
+      {isFilterToggled &&
+        <div className="relative">
+          <div id="dropdownSearch" class="z-50 absolute left-0 top-0 bg-white rounded-lg shadow-sm w-80 dark:bg-gray-700">
+            <form
+              className="p-4 border rounded-lg shadow-md space-y-4 bg-white max-w-md"
+              onSubmit={handleSubmit}
             >
-              <FontAwesomeIcon icon={faFilter} />
-              {category.name}
-            </button>
-            {/* Nested Skill List */}
-            {selectedCategoryId === category.id && (
-              <ul className="ml-4 mt-1 space-y-1">
-                {category.skills.map(skill => (
-                  <li key={skill}>
-                    <label className="flex items-center gap-2 text-[#2F2D2E]">
-                      <input
-                        type="checkbox"
-                        name="skill"
-                        value={skill}
-                        checked={selectedSkills.includes(skill)} // checked if skill is in selectedSkills
-                        onChange={() => toggleSkillSelection(skill)} // toggle skill selection
-                      />
-                      <FontAwesomeIcon icon={faCheck} className="text-green-500" />
-                      {skill}
-                    </label>
-                  </li>
+              <h2 className="text-lg font-semibold text-[#2F2D2E]">User Filter</h2>
+              <div className="overflow-y-auto h-48">
+                <label className="block font-medium mb-1 text-[#2F2D2E]">Skill Category</label>
+                {data.categories.map(category => (
+                  <div key={category.id}>
+                    <div className="flex items-center space-x-4">
+                      <hr className="flex-grow border-t-2 border-gray-800" />
+                      <span className="text-center font-semibold text-[#2F2D2E]">{category.name}</span>
+                      <hr className="flex-grow border-t-2 border-gray-800" />
+                    </div>
+                    <ul className="ml-4 mt-1 space-y-1">
+                      {category.skills.map(skill => (
+                        <li key={skill}>
+                          <label className="flex items-center gap-2 text-[#2F2D2E]">
+                            <input
+                              type="checkbox"
+                              name="skill"
+                              className="w-4 h-4 border-gray-300 rounded-sm focus:ring-white"
+                              value={skill}
+                              checked={selectedSkills.includes(skill)} // checked if skill is in selectedSkills
+                              onChange={() => toggleSkillSelection(skill)} // toggle skill selection
+                            />
+                            {skill}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
-            )}
+
+                {/* Skill Level Dropdown */}
+                <div className="text-[#2F2D2E] py-2">
+                  <label className="block font-medium mb-1 text-[#2F2D2E]">Skill Level</label>
+                  <select
+                    value={selectedLevel}
+                    onChange={(e) => setSelectedLevel(e.target.value)}
+                    className="w-full border px-2 py-1 rounded"
+                  >
+                    <option value="">All Levels</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                  </select>
+                </div>
+
+
+                {/* Skill Type Dropdown */}
+                <div className="text-[#2F2D2E]">
+                  <label className="block font-medium mb-1 text-[#2F2D2E]">Skill Type</label>
+                  <select
+                    value={selectedType}
+                    onChange={(e) => setSelectedType(e.target.value)}
+                    className="w-full border px-2 py-1 rounded"
+                  >
+                    <option value="">All Types</option>
+                    <option value="canTeach">canTeach</option>
+                    <option value="wantsToLearn">wantsToLearn</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className='space-x-2'>
+                <button
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                >
+                  Apply Filter
+                </button>
+
+                <button
+                  type="button"
+                  className={`bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 ${!selectedSkills.length && !selectedLevel && !selectedType
+                    ? 'opacity-50 cursor-not-allowed'
+                    : ''
+                    }`}
+                  onClick={handleResetFilter}
+                  disabled={!selectedSkills.length && !selectedLevel && !selectedType}
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                  Clear
+                </button>
+              </div>
+            </form>
           </div>
-        ))}
-      </div>
+        </div>
+      }
 
 
-      {/* Skill Level Dropdown */}
-      <div className="text-[#2F2D2E]">
-        <label className="block font-medium mb-1 text-[#2F2D2E]">Skill Level</label>
-        <select
-          value={selectedLevel}
-          onChange={(e) => setSelectedLevel(e.target.value)}
-          className="w-full border px-2 py-1 rounded"
-        >
-          <option value="">All Levels</option>
-          <option value="beginner">Beginner</option>
-          <option value="intermediate">Intermediate</option>
-          <option value="advanced">Advanced</option>
-        </select>
-      </div>
+    </div>
 
-
-      {/* Skill Type Dropdown */}
-      <div className = "text-[#2F2D2E]">
-        <label className="block font-medium mb-1 text-[#2F2D2E]">Skill Type</label>
-        <select
-          value={selectedType}
-          onChange={(e) => setSelectedType(e.target.value)}
-          className="w-full border px-2 py-1 rounded"
-        >
-          <option value="">All Types</option>
-          <option value="canTeach">canTeach</option>
-          <option value="wantsToLearn">wantsToLearn</option>
-        </select>
-      </div>
-
-
-      {/* Apply Button */}
-      <button
-     
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
-        Apply Filter
-      </button>
-      <button
-        type="button"
-        className={`bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 ${
-          !selectedSkills.length && !selectedLevel && !selectedType && !searchName
-            ? 'opacity-50 cursor-not-allowed'
-            : ''
-        }`}
-        onClick={handleResetFilter}
-        disabled={!selectedSkills.length && !selectedLevel && !selectedType && !searchName}
-      >
-        <FontAwesomeIcon icon={faTimes} />
-        Clear
-      </button>
-    </form>
   );
 };
 

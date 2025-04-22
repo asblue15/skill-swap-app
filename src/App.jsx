@@ -17,38 +17,9 @@ import {SearchPage} from './pages';
 // Import layout components
 import Nav from './components/layout/Nav';
 
-const mockUser = {
-  id: 'u1',
-  name: 'Alice',
-  email: 'alice@example.com',
-  profilePicture: '/src/assets/skillshare.svg',
-  bio: 'Passionate about web development and design. I love creating beautiful and functional web applications.',
-  facebook: 'https://facebook.com/alice',
-  instagram: 'https://instagram.com/alice',
-  x: 'https://x.com/alice',
-  canTeach: [
-    { skill: 'JavaScript', level: 'advanced' },
-    { skill: 'UI/UX', level: 'intermediate' },
-  ],
-  wantsToLearn: [
-    { skill: 'Python', level: 'beginner' },
-    { skill: 'SEO', level: 'beginner' },
-  ],
-};
-
-function App() {
+const HomePage = () => {
   return (
-    <>
-      <div className="flex flex-col min-h-screen">
-        {/* Navigation Bar */}
-        <Nav />
-
-        {/* Main Content - will flex-grow to push footer down */}
-        <BrowserRouter>
-          <Routes>
-            <Route path="/search" element={<SearchPage />} />
-          </Routes>
-        <main className="flex-grow">
+    <main className="flex-grow">
           <div className="container mx-auto p-6 mt-10">
             <Button content='To search and filter' navigateLink='/search'/>
             <h1 className="text-red-500 mb-4">Font mình dùng: Unbounded h1</h1>
@@ -98,6 +69,42 @@ function App() {
             </div>
           </div>
         </main>
+  )
+}
+
+const mockUser = {
+  id: 'u1',
+  name: 'Alice',
+  email: 'alice@example.com',
+  profilePicture: '/src/assets/skillshare.svg',
+  bio: 'Passionate about web development and design. I love creating beautiful and functional web applications.',
+  facebook: 'https://facebook.com/alice',
+  instagram: 'https://instagram.com/alice',
+  x: 'https://x.com/alice',
+  canTeach: [
+    { skill: 'JavaScript', level: 'advanced' },
+    { skill: 'UI/UX', level: 'intermediate' },
+  ],
+  wantsToLearn: [
+    { skill: 'Python', level: 'beginner' },
+    { skill: 'SEO', level: 'beginner' },
+  ],
+};
+
+function App() {
+  return (
+    <>
+      <div className="flex flex-col min-h-screen">
+        {/* Navigation Bar */}
+        <Nav />
+
+        {/* Main Content - will flex-grow to push footer down */}
+        <BrowserRouter>
+          <Routes>
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/" element={<HomePage />} />
+          </Routes>
+        
         </BrowserRouter>
       </div>
       
