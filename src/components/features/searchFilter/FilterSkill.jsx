@@ -114,7 +114,7 @@ const FilterSkill = ({ data, onFilter }) => {
               <ul className="ml-4 mt-1 space-y-1">
                 {category.skills.map(skill => (
                   <li key={skill}>
-                    <label className="flex items-center gap-2">
+                    <label className="flex items-center gap-2 text-[#2F2D2E]">
                       <input
                         type="checkbox"
                         name="skill"
@@ -135,8 +135,8 @@ const FilterSkill = ({ data, onFilter }) => {
 
 
       {/* Skill Level Dropdown */}
-      <div>
-        <label className="block font-medium mb-1">Skill Level</label>
+      <div className="text-[#2F2D2E]">
+        <label className="block font-medium mb-1 text-[#2F2D2E]">Skill Level</label>
         <select
           value={selectedLevel}
           onChange={(e) => setSelectedLevel(e.target.value)}
@@ -151,8 +151,8 @@ const FilterSkill = ({ data, onFilter }) => {
 
 
       {/* Skill Type Dropdown */}
-      <div>
-        <label className="block font-medium mb-1">Skill Type</label>
+      <div className = "text-[#2F2D2E]">
+        <label className="block font-medium mb-1 text-[#2F2D2E]">Skill Type</label>
         <select
           value={selectedType}
           onChange={(e) => setSelectedType(e.target.value)}

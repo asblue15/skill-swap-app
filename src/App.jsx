@@ -39,7 +39,7 @@ const mockUser = {
 function App() {
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen pt-20">
         {/* Navigation Bar */}
         <Nav />
 
@@ -48,56 +48,8 @@ function App() {
           <Routes>
             <Route path="/search" element={<SearchPage />} />
           </Routes>
-        <main className="flex-grow">
-          <div className="container mx-auto p-6 mt-10">
-            <Button content='To search and filter' navigateLink='/search'/>
-            <h1 className="text-red-500 mb-4">Font mình dùng: Unbounded h1</h1>
-            <p className="text-red-500 mb-4">còn lại popins</p>
-            <p className="text-red-500 mb-4 p-10">
-              dưới đây là components chung, mn nếu có tạo ra các components riêng cho feature của
-              mình trong folder components/feature
-            </p>
+          <Button content='To search and filter' navigateLink='/search' />
 
-            {/* Grid Layout for Components */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Button Component */}
-              <div className="flex flex-col items-center">
-                <Button content='Start session' navigate='/'/>
-                <p className="mt-2 text-center text-gray-500">
-                  This is a custom button with animations and effects.
-                </p>
-              </div>
-
-              {/* Card Component */}
-              <div className="flex flex-col items-center">
-                <UserCard user={mockUser} />
-                <p className="mt-2 text-center text-gray-500">
-                  A card component to display information in a structured way.
-                </p>
-              </div>
-
-              {/* Spinner Component */}
-              <div className="flex flex-col items-center">
-                <Spinner fullWidth={true} />
-                <p className="mt-2 text-center text-gray-500">
-                  A loading spinner to indicate processing or data loading.
-                </p>
-              </div>
-
-              {/* Toast Component */}
-              <div className="flex flex-col items-center">
-                <Toast
-                  name="Alice"
-                  message="Hey! I want to teach you UI/UX"
-                  avatar="src/assets/img-mock.webp"
-                />
-                <p className="mt-2 text-center text-gray-500">
-                  A toast notification component to display messages or alerts.
-                </p>
-              </div>
-            </div>
-          </div>
-        </main>
         </BrowserRouter>
       </div>
       
