@@ -1,88 +1,98 @@
+import { Link, useNavigate } from 'react-router-dom';
+import { useUser } from '../../contexts/UserContext';
+import logo from '../../assets/logo1.png';
+import { useState, useEffect, useRef } from 'react';
+
 export default function Nav() {
+  const { user, logout } = useUser();
+  const nav = useNavigate();
+  const [dropDownOpen, setDropDownOpen] = useState(false);
+  const dropDownRef = useRef(null);
+
+  const handleLogout = () => {
+    logout();
+    nav('/');
+    setDropDownOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
+        setDropDownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
-    <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+    <nav className="fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 bg-transparent backdrop-blur-xl shadow-xl">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="src/assets/skillshare.svg" className="h-8" alt="Skillshare Logo" />
+        <Link to="/" className="flex items-center rtl:space-x-reverse">
+          <img src={logo} className="h-20" alt="Skillswap Logo" />
           <h1 className="self-center font-semibold whitespace-nowrap dark:text-white">Skillswap</h1>
-        </a>
+        </Link>
 
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-2">
-          <button
-            type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Signup
-          </button>
-          <button
-            type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Login
-          </button>
-          <button
-            data-collapse-toggle="navbar-sticky"
-            type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-sticky"
-            aria-expanded="false"
-          >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 1h15M1 7h15M1 13h15"
+          {!user ? (
+            <>
+              <Link to="/signup">Sign Up</Link>
+              <Link to="/login">Log In</Link>
+            </>
+          ) : (
+            <div className="flex items-center gap-2 relative" ref={dropDownRef}>
+              <span className="text-black px-2">{user.name}</span>
+              <img
+                src={user.profilePicture || '/logo1.png'}
+                alt={user.name}
+                className="w-8 h-8 rounded-full object-cover"
+                onClick={() => setDropDownOpen(!dropDownOpen)}
               />
-            </svg>
-          </button>
+              {dropDownOpen && (
+                <div className="absolute top-full right-0 mt-2 w-30 bg-white rounded-md shadow-lg z-50 flex flex-col text-right text-sm transition ease-out duration-150 transform origin-top scale-95">
+                  <Link
+                    to="/profile"
+                    onClick={() => setDropDownOpen(false)}
+                    className="px-4 py-2 hover:bg-pink-50"
+                  >
+                    Profile
+                  </Link>
+                  <Link
+                    to="/connections"
+                    onClick={() => setDropDownOpen(false)}
+                    className="px-4 py-2 hover:bg-pink-50"
+                  >
+                    Connections
+                  </Link>
+                  <div
+                    onClick={handleLogout}
+                    className="px-4 py-2 hover:bg-pink-50 cursor-pointer text-pink-700 font-semibold"
+                  >
+                    Logout
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
-
         <div
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
           id="navbar-sticky"
         >
-          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
             <li>
-              <a
-                href="#"
-                className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-                aria-current="page"
-              >
+              <a href="#" aria-current="page">
                 Home
               </a>
             </li>
             <li>
-              <a
-                href="#about"
-                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                About
-              </a>
+              <a href="#about">About</a>
             </li>
             <li>
-              <a
-                href="#services"
-                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                Services
-              </a>
+              <a href="#services">Services</a>
             </li>
             <li>
-              <a
-                href="#contact"
-                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                Contact
-              </a>
+              <a href="#contact">Contact</a>
             </li>
           </ul>
         </div>
