@@ -71,111 +71,94 @@ const FilterSkill = ({ data, onFilter }) => {
   };
 
   return (
-    //Submit here in form to allow user enter + click button
-
-    <div>
-
-      <div className={`w-fit h-fit border p-2 rounded-lg flex items-center justify-center cursor-pointer ${isFilterToggled ? 'bg-[#41292C] hover:bg-[#792359]' : 'bg-[#792359] hover:bg-[#41292C]'}`} onClick={() => setIsFilterToggled(!isFilterToggled)}>
-        <FontAwesomeIcon icon={faFilter} />
-      </div>
-
-      {isFilterToggled &&
-        <div className="relative">
-          <div id="dropdownSearch" class="z-50 absolute left-0 top-0 bg-white rounded-lg shadow-sm w-80 dark:bg-gray-700">
-            <form
-              className="p-4 border rounded-lg shadow-md space-y-4 bg-white max-w-md"
-              onSubmit={handleSubmit}
-            >
-              <h2 className="text-lg font-semibold text-[#2F2D2E]">User Filter</h2>
-              <div className="overflow-y-auto h-48">
-                <label className="block font-medium mb-1 text-[#2F2D2E]">Skill Category</label>
-                {data.categories.map(category => (
-                  <div key={category.id}>
-                    <div className="flex items-center space-x-4">
-                      <hr className="flex-grow border-t-2 border-gray-800" />
-                      <span className="text-center font-semibold text-[#2F2D2E]">{category.name}</span>
-                      <hr className="flex-grow border-t-2 border-gray-800" />
-                    </div>
-                    <ul className="ml-4 mt-1 space-y-1">
-                      {category.skills.map(skill => (
-                        <li key={skill}>
-                          <label className="flex items-center gap-2 text-[#2F2D2E]">
-                            <input
-                              type="checkbox"
-                              name="skill"
-                              className="w-4 h-4 border-gray-300 rounded-sm focus:ring-white"
-                              value={skill}
-                              checked={selectedSkills.includes(skill)} // checked if skill is in selectedSkills
-                              onChange={() => toggleSkillSelection(skill)} // toggle skill selection
-                            />
-                            {skill}
-                          </label>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-
-                {/* Skill Level Dropdown */}
-                <div className="text-[#2F2D2E] py-2">
-                  <label className="block font-medium mb-1 text-[#2F2D2E]">Skill Level</label>
-                  <select
-                    value={selectedLevel}
-                    onChange={(e) => setSelectedLevel(e.target.value)}
-                    className="w-full border px-2 py-1 rounded"
-                  >
-                    <option value="">All Levels</option>
-                    <option value="beginner">Beginner</option>
-                    <option value="intermediate">Intermediate</option>
-                    <option value="advanced">Advanced</option>
-                  </select>
+    <div className="p-6 bg-white shadow-md h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto">
+      <h2 className="text-xl font-semibold mb-4 text-[#2F2D2E]">Filters</h2>
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        {/* Skill Category */}
+        <div>
+          <label className="block font-medium mb-2 text-[#2F2D2E]">Skill Category</label>
+          <div className="overflow-y-auto max-h-48">
+            {data.categories.map((category) => (
+              <div key={category.id}>
+                <div className="flex items-center space-x-4">
+                  <hr className="flex-grow border-t border-gray-300" />
+                  <span className="text-center font-semibold text-[#2F2D2E]">{category.name}</span>
+                  <hr className="flex-grow border-t border-gray-300" />
                 </div>
-
-
-                {/* Skill Type Dropdown */}
-                <div className="text-[#2F2D2E]">
-                  <label className="block font-medium mb-1 text-[#2F2D2E]">Skill Type</label>
-                  <select
-                    value={selectedType}
-                    onChange={(e) => setSelectedType(e.target.value)}
-                    className="w-full border px-2 py-1 rounded"
-                  >
-                    <option value="">All Types</option>
-                    <option value="Teach">Teach</option>
-                    <option value="Learn">Learn</option>
-                  </select>
-                </div>
+                <ul className="ml-4 mt-2 space-y-2">
+                  {category.skills.map((skill) => (
+                    <li key={skill}>
+                      <label className="flex items-center gap-2 text-[#2F2D2E]">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 border-gray-300 rounded focus:ring-blue-500"
+                          value={skill}
+                          checked={selectedSkills.includes(skill)}
+                          onChange={() => toggleSkillSelection(skill)}
+                        />
+                        {skill}
+                      </label>
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              <div className='space-x-2'>
-                <button
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                >
-                  Apply Filter
-                </button>
-
-                <button
-                  type="button"
-                  className={`bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 ${!selectedSkills.length && !selectedLevel && !selectedType
-                    ? 'opacity-50 cursor-not-allowed'
-                    : ''
-                    }`}
-                  onClick={handleResetFilter}
-                  disabled={!selectedSkills.length && !selectedLevel && !selectedType}
-                  aria-lable = "Clear filter"
-                >
-                  <FontAwesomeIcon icon={faTimes} />
-                  Clear
-                </button>
-              </div>
-            </form>
+            ))}
           </div>
         </div>
-      }
 
+        {/* Skill Level Dropdown */}
+        <div>
+          <label className="block font-medium mb-2 text-[#2F2D2E]">Skill Level</label>
+          <select
+            value={selectedLevel}
+            onChange={(e) => setSelectedLevel(e.target.value)}
+            className="w-full border border-gray-300 px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
+            <option value="">All Levels</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
 
+        {/* Skill Type Dropdown */}
+        <div>
+          <label className="block font-medium mb-2 text-[#2F2D2E]">Skill Type</label>
+          <select
+            value={selectedType}
+            onChange={(e) => setSelectedType(e.target.value)}
+            className="w-full border border-gray-300 px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
+            <option value="">All Types</option>
+            <option value="Teach">Teach</option>
+            <option value="Learn">Learn</option>
+          </select>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex space-x-4">
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200"
+          >
+            Apply Filter
+          </button>
+          <button
+            type="button"
+            className={`bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200 ${
+              !selectedSkills.length && !selectedLevel && !selectedType
+                ? 'opacity-50 cursor-not-allowed'
+                : ''
+            }`}
+            onClick={handleResetFilter}
+            disabled={!selectedSkills.length && !selectedLevel && !selectedType}
+          >
+            <FontAwesomeIcon icon={faTimes} className="mr-2" />
+            Clear
+          </button>
+        </div>
+      </form>
     </div>
-
   );
 };
 

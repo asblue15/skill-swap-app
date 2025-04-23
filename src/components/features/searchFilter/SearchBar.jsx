@@ -1,14 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-/*TODO:
-    1.add debounce to the search bar to avoid too many re-renders (lodash.debounce)
-    2.add a clear button to the search bar to clear the input
-*/
 
 const SearchBar = ({ value, onChange }) => {
   return (
-    <div className='flex w-full p-2'>
-      {/* <label className="block mb-1 font-medium text-[#2F2D2E]">Search by Name</label> */}
+    <div className="flex w-full p-2 sm:p-4">
       <div className="relative w-full">
         <FontAwesomeIcon
           icon={faSearch}
@@ -19,14 +14,14 @@ const SearchBar = ({ value, onChange }) => {
           placeholder="e.g. Alice"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full border px-10 py-1 rounded"
+          className="w-full border px-10 py-2 sm:py-3 rounded text-sm sm:text-base"
           aria-label="Search by name"
           role="searchbox"
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;
 

@@ -183,32 +183,34 @@ function SearchPage() {
 
   return (
     <div className="p-6 pt-20 w-full flex flex-col">
-      <h2 className="text-4xl font-semibold mb-4 text-[#2F2D2E]">Search Page</h2>
-      <div className='flex w-full items-center justify-center'>
-        <div className='text-[#2F2D2E]'>
-          <div className="flex items-center gap-2">
+      <h2 className="text-4xl font-semibold mb-4 text-[#2F2D2E] text-center">Search Page</h2>
+      <div className="flex w-full">
+        {/* Sidebar */}
+        <aside className="w-64 bg-white shadow-md h-[calc(100vh-4rem)] sticky top-16">
+          <FilterSkill data={data} onFilter={onFilter} />
+        </aside>
+
+        {/* Main Content */}
+        <div className="flex-1 ml-6">
+          <div className="text-[#2F2D2E] mb-4">
             <SearchBar value={searchName} onChange={handleSearchChange} />
+            {searchName && searchName.length < 3 && (
+              <p className="text-red-500 text-sm mt-2">Name must be at least 3 characters long.</p>
+            )}
           </div>
-          {searchName && searchName.length < 3 && (
-            <p className="text-red-500 text-sm">Name must be at least 3 characters long.</p>
-          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+            {filteredUsers.length > 0 ? (
+              filteredUsers.map((user) => (
+                <UserCard key={user.id} user={user} />
+              ))
+            ) : (
+              <div className="col-span-full text-center text-gray-500">
+                <p className="text-lg font-semibold">No results found.</p>
+                <p className="text-sm">Try adjusting your search or filter criteria.</p>
+              </div>
+            )}
+          </div>
         </div>
-        <FilterSkill data={data} onFilter={onFilter} />
-      </div>
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6'>
-        {filteredUsers.length > 0 ? (
-          filteredUsers.map((user) => (
-            <UserCard
-              key={user.id}
-              user = {user}
-            />
-          ))
-        ) : (
-          <div className="col-span-full text-center text-gray-500">
-          <p className="text-lg font-semibold">No results found.</p>
-          <p className="text-sm">Try adjusting your search or filter criteria.</p>
-        </div>
-        )}
       </div>
     </div>
   );
