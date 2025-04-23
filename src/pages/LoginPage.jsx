@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
+import { getUsers } from '../services/mockDataService';
 import bgImage from '../assets/login.webp';
 import logo from '../assets/logo1.png';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
   const { login, user } = useUser();
   const nav = useNavigate();
 
@@ -19,37 +20,18 @@ export default function LoginPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const mockUser = {
-      id: 'u1',
-      name: 'Alice',
-      email: 'alice@example.com',
-      profilePicture: '/images/profiles/alice.jpg',
-      bio: 'Passionate about web development and design. I love creating beautiful and functional web applications.',
-      facebook: 'https://facebook.com/alice',
-      instagram: 'https://instagram.com/alice',
-      x: 'https://x.com/alice',
-      canTeach: [
-        { skill: 'JavaScript', level: 'advanced' },
-        { skill: 'UI/UX', level: 'intermediate' },
-      ],
-      wantsToLearn: [
-        { skill: 'Python', level: 'beginner' },
-        { skill: 'SEO', level: 'beginner' },
-      ],
-      connections: ['u2'],
-      requestSent: ['u3'],
-      requestReceived: ['u2'],
-      notifications: [
-        {
-          type: 'match',
-          from: 'u2',
-          timestamp: '2025-04-19T13:15:00Z',
-          message: 'You matched with Bob!',
-        },
-      ],
-    };
+    const users = getUsers();
 
-    login(mockUser);
+    const foundUser = users.find(
+      (u) => u.email === email && u.name.toLowerCase() === password.toLowerCase()
+    );
+
+    if (!foundUser) {
+      alert('Invalid email or password');
+      return;
+    }
+
+    login(foundUser);
   };
 
   return (
@@ -74,6 +56,7 @@ export default function LoginPage() {
           <img src={logo} className="h-20" alt="Skillswap Logo" />
           <h1 className="font-semibold">Skillswap</h1>
         </Link>
+
         <button
           type="button"
           onClick={() => alert('For demo only')}
@@ -104,16 +87,20 @@ export default function LoginPage() {
 
         <input
           type="password"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
           className="w-full border border-amber-950 rounded px-3 py-2 text-gray-800"
           required
         />
 
-        <button type="submit" className="w-full text-white py-2 rounded transition">
+        <button
+          type="submit"
+          className="w-full bg-amber-950 text-white py-2 rounded transition hover:bg-amber-900"
+        >
           Log In
         </button>
+
         <div className="text-center text-gray-800">
           Don't have an account?
           <Link
