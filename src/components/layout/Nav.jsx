@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../../contexts/UserContext';
 import logo from '../../assets/logo1.png';
 import { useState, useEffect, useRef } from 'react';
+import NotificationBell from '../shared/NotificationBell';
 
 export default function Nav() {
   const { user, logout } = useUser();
@@ -72,6 +73,7 @@ export default function Nav() {
                   </div>
                 </div>
               )}
+              <NotificationBell />
             </div>
           )}
         </div>
