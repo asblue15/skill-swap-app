@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 
 /*
@@ -34,7 +34,7 @@ const FilterSkill = ({ data, onFilter }) => {
   const [selectedLevel, setSelectedLevel] = useState('');
   const [selectedType, setSelectedType] = useState('');
 
-  const [isFilterToggled, setIsFilterToggled] = useState(false); // State to track if filter is toggled
+  // const [isFilterToggled, setIsFilterToggled] = useState(false); // State to track if filter is toggled
 
 
   // Handle skill selection
@@ -48,7 +48,7 @@ const FilterSkill = ({ data, onFilter }) => {
   // Handle filter submit
   const handleSubmit = (e) => {
     e.preventDefault()
-    setIsFilterToggled(false); // Close the filter dropdown
+    // setIsFilterToggled(false); // Close the filter dropdown
 
     // Validate filters
     if (!selectedSkills.length && !selectedLevel && !selectedType) {
