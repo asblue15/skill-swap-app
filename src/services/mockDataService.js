@@ -31,11 +31,6 @@ export const getUserByName = (userName) => {
   return users.filter((user) => user.name.toLowerCase().includes(caseUserName));
 };
 
-// filter and search: Trang vs Tam co the de method tui em da viet vo day nha
-// filter by teach:
-// filter by learn:
-// combined filter:
-
 export const addUser = (newUser) => {
   const data = getData();
   data.users.push(newUser);
