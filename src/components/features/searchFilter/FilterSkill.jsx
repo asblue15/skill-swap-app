@@ -2,12 +2,10 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-
 /*
 TODO:
 Usage of this component: fetch data from parent component and pass it as props to this component.
 Display results based on the filter applied: 
-
 
 Functionality enhancement:
     1. clear filter button - DONE
@@ -36,7 +34,6 @@ const FilterSkill = ({ data, onFilter }) => {
 
   // const [isFilterToggled, setIsFilterToggled] = useState(false); // State to track if filter is toggled
 
-
   // Handle skill selection
   const toggleSkillSelection = (skill) => {
     setSelectedSkills((prevSkills) =>
@@ -45,16 +42,17 @@ const FilterSkill = ({ data, onFilter }) => {
         : [...prevSkills, skill] // Add skill if not selected
     );
   };
+
   // Handle filter submit
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     // setIsFilterToggled(false); // Close the filter dropdown
 
     // Validate filters
     if (!selectedSkills.length && !selectedLevel && !selectedType) {
       //alert can be annoying, consider using a toast notification or modal instead
-      alert('Please select at least one filter option')
-      return
+      alert('Please select at least one filter option');
+      return;
     }
     onFilter({
       skill: selectedSkills,
@@ -62,6 +60,7 @@ const FilterSkill = ({ data, onFilter }) => {
       type: selectedType,
     });
   };
+
   // Handle filter reset
   const handleResetFilter = () => {
     // setSelectedCategoryId(null);
@@ -71,27 +70,27 @@ const FilterSkill = ({ data, onFilter }) => {
   };
 
   return (
-    <div className="p-6 bg-white shadow-md h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto">
-      <h2 className="text-xl font-semibold mb-4 text-[#2F2D2E]">Filters</h2>
+    <div className="p-6 bg-white dark:bg-gray-900 shadow-md h-[calc(100vh-4rem)] sticky top-16 transition-colors">
+      <h2 className="text-xl font-semibold mb-4 text-[#2F2D2E] dark:text-gray-100">Filters</h2>
       <form className="space-y-6" onSubmit={handleSubmit}>
         {/* Skill Category */}
         <div>
-          <label className="block font-medium mb-2 text-[#2F2D2E]">Skill Category</label>
+          <label className="block font-medium mb-2 text-[#2F2D2E] dark:text-gray-100">Skill Category</label>
           <div className="overflow-y-auto max-h-48">
             {data.categories.map((category) => (
               <div key={category.id}>
                 <div className="flex items-center space-x-4">
-                  <hr className="flex-grow border-t border-gray-300" />
-                  <span className="text-center font-semibold text-[#2F2D2E]">{category.name}</span>
-                  <hr className="flex-grow border-t border-gray-300" />
+                  <hr className="flex-grow border-t border-gray-300 dark:border-gray-600" />
+                  <span className="text-center font-semibold text-[#2F2D2E] dark:text-gray-100">{category.name}</span>
+                  <hr className="flex-grow border-t border-gray-300 dark:border-gray-600" />
                 </div>
                 <ul className="ml-4 mt-2 space-y-2">
                   {category.skills.map((skill) => (
                     <li key={skill}>
-                      <label className="flex items-center gap-2 text-[#2F2D2E]">
+                      <label className="flex items-center gap-2 text-[#2F2D2E] dark:text-gray-200">
                         <input
                           type="checkbox"
-                          className="w-4 h-4 border-gray-300 rounded focus:ring-blue-500"
+                          className="w-4 h-4 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 focus:ring-blue-500"
                           value={skill}
                           checked={selectedSkills.includes(skill)}
                           onChange={() => toggleSkillSelection(skill)}
@@ -107,12 +106,12 @@ const FilterSkill = ({ data, onFilter }) => {
         </div>
 
         {/* Skill Level Dropdown */}
-        <div>
-          <label className="block font-medium mb-2 text-[#2F2D2E]">Skill Level</label>
+        <div className="text-[#2F2D2E] dark:text-gray-100">
+          <label className="block font-medium mb-2 text-[#2F2D2E] dark:text-gray-100">Skill Level</label>
           <select
             value={selectedLevel}
             onChange={(e) => setSelectedLevel(e.target.value)}
-            className="w-full border border-gray-300 px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-gray-100 px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
           >
             <option value="">All Levels</option>
             <option value="beginner">Beginner</option>
@@ -122,12 +121,12 @@ const FilterSkill = ({ data, onFilter }) => {
         </div>
 
         {/* Skill Type Dropdown */}
-        <div>
-          <label className="block font-medium mb-2 text-[#2F2D2E]">Skill Type</label>
+        <div className="text-[#2F2D2E] dark:text-gray-100">
+          <label className="block font-medium mb-2">Skill Type</label>
           <select
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-            className="w-full border border-gray-300 px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-gray-100 px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
           >
             <option value="">All Types</option>
             <option value="Teach">Teach</option>
@@ -145,11 +144,10 @@ const FilterSkill = ({ data, onFilter }) => {
           </button>
           <button
             type="button"
-            className={`bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200 ${
-              !selectedSkills.length && !selectedLevel && !selectedType
+            className={`bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200 ${!selectedSkills.length && !selectedLevel && !selectedType
                 ? 'opacity-50 cursor-not-allowed'
                 : ''
-            }`}
+              }`}
             onClick={handleResetFilter}
             disabled={!selectedSkills.length && !selectedLevel && !selectedType}
           >
@@ -162,7 +160,4 @@ const FilterSkill = ({ data, onFilter }) => {
   );
 };
 
-
 export default FilterSkill;
-
-
