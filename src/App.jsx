@@ -6,6 +6,7 @@ import './App.css';
 import SignUpPage from './pages/SignUpPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import OnboardingPage from './pages/OnboardingPage';
+import NotFound from './pages/NotFoundPage';
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
       {/* without nav+footer */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
