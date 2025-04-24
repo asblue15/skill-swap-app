@@ -6,6 +6,7 @@ import './App.css';
 import SignUpPage from './pages/SignUpPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import OnboardingPage from './pages/OnboardingPage';
+import MatchPage from './pages/MatchPage';
 import NotFound from './pages/NotFoundPage';
 
 export default function App() {
@@ -19,7 +20,14 @@ export default function App() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<HomePage />} />
+        <Route
+          index
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/onboarding"
           element={
@@ -28,8 +36,14 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        {/* component Trang voi Tam lam theo format tren lun nha nhu cai Onboarding a */}
-        {/*  */}
+        <Route
+          path="/matches"
+          element={
+            <ProtectedRoute>
+              <MatchPage />
+            </ProtectedRoute>
+          }
+        />
       </Route>
       {/* without nav+footer */}
       <Route path="/login" element={<LoginPage />} />

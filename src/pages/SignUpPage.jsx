@@ -26,7 +26,7 @@ export default function SignupPage() {
         id: newUserId,
         name,
         email,
-        profilePicture: 'src/images/default-avt.png',
+        profilePicture: '/images/profiles/default-avt.png',
         bio: '',
         canTeach: [],
         wantsToLearn: [],

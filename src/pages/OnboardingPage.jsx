@@ -15,7 +15,7 @@ export default function OnboardingPage() {
   const MAX_BIO_LENGTH = 150;
   const [bio, setBio] = useState(user?.bio || '');
   const [profilePicture, setProfilePicture] = useState(
-    user?.profilePicture || 'src/images/default-avt.png'
+    user?.profilePicture || '/images/profiles/default-avt.png'
   );
 
   // links---------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ export default function OnboardingPage() {
       await updateUser(updatedUserData);
       updateUserData(updatedUserData);
       await new Promise((resolve) => setTimeout(resolve, 1000)); //simulate loading
-      nav('/');
+      nav('/matches');
     } catch (error) {
       console.error('Cannot onboard:', error);
       alert('Cannot onboard now. Please try again.');
@@ -537,7 +537,6 @@ export default function OnboardingPage() {
                   {saving ? (
                     <>
                       <Spinner size="sm" />
-                      <span className="ml-2">Saving...</span>
                     </>
                   ) : (
                     <span>Finish Onboarding</span>
