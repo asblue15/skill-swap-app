@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
+import Nav from '../components/layout/Nav';
 import backgroundImage from '../assets/404.png';
-import '../index.css';
 
 export default function NotFound() {
   return (
@@ -13,8 +13,9 @@ export default function NotFound() {
         right: '0',
         bottom: '0',
         position: 'absolute',
-    }}
+      }}
     >
+      <Nav />
       <div className="mx-auto px-4 flex justify-between items-center w-full h-screen">
         <div className="text-left ml-40">
           <h1
