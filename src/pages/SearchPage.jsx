@@ -180,22 +180,22 @@ function SearchPage() {
 
 
   return (
-    <div className="p-6 pt-20 w-full flex flex-col bg-white dark:bg-gray-900 min-h-screen transition-colors">
+    <div className="p-6 pt-20 w-full min-w-full flex flex-col bg-white dark:bg-gray-900 min-h-screen transition-colors">
       <h2 className="text-4xl font-semibold mb-4 text-[#2F2D2E] dark:text-gray-100 text-center">Search Page</h2>
       <div className="flex w-full">
         {/* Sidebar */}
-        <aside className="w-64 bg-white dark:bg-gray-800 shadow-md h-[calc(100vh-4rem)] sticky top-16">
-          <FilterSkill data={data} onFilter={onFilter} />
+        <aside className="w-78 bg-white dark:bg-gray-800 shadow-md h-[calc(100vh-4rem)] sticky top-16">
+          <FilterSkill data={data} onFilter={onFilter} searchName={searchName} onSearchNameChange={handleSearchChange}/>
         </aside>
 
         {/* Main Content */}
         <div className="flex-1 ml-6">
-          <div className="text-[#2F2D2E] dark:text-gray-100 mb-4">
+          {/* <div className="text-[#2F2D2E] dark:text-gray-100 mb-4">
             <SearchBar value={searchName} onChange={handleSearchChange} />
             {searchName && searchName.length < 3 && (
               <p className="text-red-500 text-sm mt-2">Name must be at least 3 characters long.</p>
             )}
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
             {filteredUsers.length > 0 ? (

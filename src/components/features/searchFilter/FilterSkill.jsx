@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-
+import SearchBar from './SearchBar';
 /*
 TODO:
 Usage of this component: fetch data from parent component and pass it as props to this component.
@@ -25,12 +25,17 @@ Refactoring and optimization:
 
 // {data} is fetched data from parent pass down. 
 // {onFilter} a cb to pass the selected filters to the parent component.
-const FilterSkill = ({ data, onFilter }) => {
+const FilterSkill = ({ data, onFilter, searchName, onSearchNameChange }) => {
   // State hooks for filter options
   // const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState('');
   const [selectedType, setSelectedType] = useState('');
+  const [openCategory, setOpenCategory] = useState(null);
+
+  const handleToggleCategory = (id) => {
+    setOpenCategory((prev) => (prev === id ? null : id));
+  };
 
   // const [isFilterToggled, setIsFilterToggled] = useState(false); // State to track if filter is toggled
 
@@ -70,38 +75,60 @@ const FilterSkill = ({ data, onFilter }) => {
   };
 
   return (
-    <div className="p-6 bg-white dark:bg-gray-900 shadow-md h-[calc(100vh-4rem)] sticky top-16 transition-colors">
+    <div className="p-6 bg-white dark:bg-gray-900 shadow-md h-fit sticky top-16 flex flex-col justify-between max-h-[calc(100vh-4rem)] overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full  [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
       <h2 className="text-xl font-semibold mb-4 text-[#2F2D2E] dark:text-gray-100">Filters</h2>
+      <SearchBar value={searchName} onChange={onSearchNameChange}/>
       <form className="space-y-6" onSubmit={handleSubmit}>
         {/* Skill Category */}
         <div>
           <label className="block font-medium mb-2 text-[#2F2D2E] dark:text-gray-100">Skill Category</label>
-          <div className="overflow-y-auto max-h-48">
+          <div className="">
             {data.categories.map((category) => (
               <div key={category.id}>
-                <div className="flex items-center space-x-4">
-                  <hr className="flex-grow border-t border-gray-300 dark:border-gray-600" />
-                  <span className="text-center font-semibold text-[#2F2D2E] dark:text-gray-100">{category.name}</span>
-                  <hr className="flex-grow border-t border-gray-300 dark:border-gray-600" />
+                {/* Toggle Header */}
+                <button
+                  type="button"
+                  onClick={() => handleToggleCategory(category.id)}
+                  className="flex items-center justify-between w-full text-sm font-medium !text-gray-700 !focus:outline-none !focus:ring-0 dark:text-white py-2 px-1 !bg-white dark:bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 rounded"
+                >
+                  <span>{category.name}</span>
+                  <span className="text-lg">
+                    {openCategory === category.id ? "▾" : "▸"}
+                  </span>
+                </button>
+
+                {/* Skills List with transition */}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${openCategory === category.id ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                >
+                  <ul className="ml-2 mt-2 space-y-2 pl-2 border-l border-gray-300 dark:border-gray-600">
+                    {category.skills.map((skill) => (
+                      <li key={skill}>
+                        <label className="flex items-center space-x-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            className="appearance-none w-4 h-4 border-2 border-gray-400 rounded-sm checked:bg-pink-500 checked:border-pink-500 transition duration-150 ease-in-out"
+                            value={skill}
+                            checked={selectedSkills.includes(skill)}
+                            onChange={() => toggleSkillSelection(skill)}
+                          />
+                          <span
+                            className={`text-sm font-medium ${selectedSkills.includes(skill)
+                              ? "text-pink-600 font-semibold"
+                              : "text-gray-800 dark:text-gray-200"
+                              }`}
+                          >
+                            {skill}
+                          </span>
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="ml-4 mt-2 space-y-2">
-                  {category.skills.map((skill) => (
-                    <li key={skill}>
-                      <label className="flex items-center gap-2 text-[#2F2D2E] dark:text-gray-200">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 focus:ring-blue-500"
-                          value={skill}
-                          checked={selectedSkills.includes(skill)}
-                          onChange={() => toggleSkillSelection(skill)}
-                        />
-                        {skill}
-                      </label>
-                    </li>
-                  ))}
-                </ul>
               </div>
             ))}
+
           </div>
         </div>
 
@@ -145,8 +172,8 @@ const FilterSkill = ({ data, onFilter }) => {
           <button
             type="button"
             className={`bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200 ${!selectedSkills.length && !selectedLevel && !selectedType
-                ? 'opacity-50 cursor-not-allowed'
-                : ''
+              ? 'opacity-50 cursor-not-allowed'
+              : ''
               }`}
             onClick={handleResetFilter}
             disabled={!selectedSkills.length && !selectedLevel && !selectedType}
