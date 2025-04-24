@@ -6,7 +6,7 @@ import './App.css';
 import SignUpPage from './pages/SignUpPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import OnboardingPage from './pages/OnboardingPage';
-import MatchPage from './pages/MatchPage';
+import MatchesPage from './pages/MatchesPage';
 import NotFound from './pages/NotFoundPage';
 
 export default function App() {
@@ -40,7 +40,7 @@ export default function App() {
           path="/matches"
           element={
             <ProtectedRoute>
-              <MatchPage />
+              <MatchesPage />
             </ProtectedRoute>
           }
         />
