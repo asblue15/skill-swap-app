@@ -3,16 +3,17 @@ export const handleSendConnectionRequest = (currentUser, userList, targetUserId)
 
   const updatedCurrentUser = {
     ...currentUser,
-    requestSent: [...currentUser.requestSent, targetUserId],
+    requestSent: [...(currentUser.requestSent || []), targetUserId],
   };
 
   const updatedUsers = userList.map((user) => {
     if (user.id === targetUserId) {
       return {
         ...user,
-        requestReceived: [...user.requestReceived, currentUser.id],
+        // check co hay ko
+        requestReceived: [...(user.requestReceived || []), currentUser.id],
         notifications: [
-          ...user.notifications,
+          ...(user.notifications || []),
           {
             type: 'connection',
             from: currentUser.id,
@@ -39,14 +40,14 @@ export const handleSendConnectionRequest = (currentUser, userList, targetUserId)
 export const handleConnectionResponse = (currentUser, userList, fromUserId, accept) => {
   if (!currentUser) return { success: false };
 
-  const updatedNotifications = currentUser.notifications.filter(
+  const updatedNotifications = (currentUser.notifications || []).filter(
     (notif) => !(notif.from === fromUserId && notif.type === 'connection')
   );
 
   let updatedCurrentUser = {
     ...currentUser,
     notifications: updatedNotifications,
-    requestReceived: currentUser.requestReceived.filter((id) => id !== fromUserId),
+    requestReceived: (currentUser.requestReceived || []).filter((id) => id !== fromUserId),
   };
 
   let updatedUsers = userList.map((user) => {
@@ -57,17 +58,17 @@ export const handleConnectionResponse = (currentUser, userList, fromUserId, acce
   if (accept) {
     updatedCurrentUser = {
       ...updatedCurrentUser,
-      connections: [...new Set([...updatedCurrentUser.connections, fromUserId])],
+      connections: [...new Set([...(updatedCurrentUser.connections || []), fromUserId])],
     };
 
     updatedUsers = updatedUsers.map((user) => {
       if (user.id === fromUserId) {
         return {
           ...user,
-          connections: [...new Set([...user.connections, currentUser.id])],
-          requestSent: user.requestSent.filter((id) => id !== currentUser.id),
+          connections: [...new Set([...(user.connections || []), currentUser.id])],
+          requestSent: (user.requestSent || []).filter((id) => id !== currentUser.id),
           notifications: [
-            ...user.notifications,
+            ...(user.notifications || []),
             {
               type: 'accepted',
               from: currentUser.id,
@@ -84,7 +85,7 @@ export const handleConnectionResponse = (currentUser, userList, fromUserId, acce
       if (user.id === fromUserId) {
         return {
           ...user,
-          requestSent: user.requestSent.filter((id) => id !== currentUser.id),
+          requestSent: (user.requestSent || []).filter((id) => id !== currentUser.id),
         };
       }
       return user;
@@ -105,9 +106,10 @@ export const handleConnectionResponse = (currentUser, userList, fromUserId, acce
 export const handleDismissNotification = (currentUser, userList, notificationIndex) => {
   if (!currentUser) return { success: false };
 
-  const updatedNotifications = [...currentUser.notifications];
-  updatedNotifications.splice(notificationIndex, 1);
-
+  const updatedNotifications = [...(currentUser.notifications || [])];
+  if (updatedNotifications.length > notificationIndex) {
+    updatedNotifications.splice(notificationIndex, 1);
+  }
   const updatedUser = {
     ...currentUser,
     notifications: updatedNotifications,

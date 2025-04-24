@@ -1,4 +1,4 @@
-import React from 'react';
+// not updated yet
 
 export default function UserModal({ user, onClose }) {
   if (!user) return null;
@@ -6,7 +6,7 @@ export default function UserModal({ user, onClose }) {
   const { name, email, profilePicture, bio, facebook, instagram, x, canTeach, wantsToLearn } = user;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-md">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{name}</h2>

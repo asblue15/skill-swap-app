@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export default function ConnectionButton({
   isConnected,
@@ -9,11 +9,16 @@ export default function ConnectionButton({
   onRespond,
 }) {
   const [showRespondOptions, setShowRespondOptions] = useState(false);
+  const [localRequestSent, setLocalRequestSent] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  // either the prop from parent or local state
+  const effectiveRequestSent = requestSent || localRequestSent;
 
   if (isConnected) {
     return (
       <button
-        className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-lg"
+        className="custom-button inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-800 rounded-lg"
         disabled
       >
         Connected
@@ -21,10 +26,10 @@ export default function ConnectionButton({
     );
   }
 
-  if (requestSent) {
+  if (effectiveRequestSent) {
     return (
       <button
-        className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gray-400 rounded-lg"
+        className="custom-button inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gray-400 rounded-lg"
         disabled
       >
         Request Sent
@@ -74,10 +79,30 @@ export default function ConnectionButton({
   // Default: Connect
   return (
     <button
-      className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-pink-500 rounded-lg"
+      className={`inline-flex items-center px-4 py-2 text-sm font-medium text-white ${
+        buttonClicked ? 'bg-pink-700' : 'bg-pink-500'
+      } rounded-lg hover:bg-pink-600`}
       onClick={(e) => {
         e.stopPropagation();
-        onConnect(userId);
+        setButtonClicked(true);
+        console.log('Connect button clicked for user:', userId);
+
+        // set local state
+        setLocalRequestSent(true);
+
+        const result = onConnect(userId);
+        console.log('Connection result:', result);
+
+        if (!result) {
+          // request failed, reset local state after 2s
+          setTimeout(() => {
+            setLocalRequestSent(false);
+          }, 2000);
+        }
+
+        setTimeout(() => {
+          setButtonClicked(false);
+        }, 500);
       }}
     >
       Connect

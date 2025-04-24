@@ -15,23 +15,38 @@ const STORAGE_KEY = 'skillswap_user_data';
 
 export const ConnectionProvider = ({ children }) => {
   const { user: authUser } = useAuthUser();
-
-  const initializeData = () => {
+  const [userList, setUserList] = useState(() => {
     const storedData = localStorage.getItem(STORAGE_KEY);
     if (storedData) {
       return JSON.parse(storedData);
     }
     return mockData.users;
-  };
+  });
 
-  const [userList, setUserList] = useState(initializeData);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     if (authUser) {
       const detailedUser = userList.find((u) => u.id === authUser.id);
       if (detailedUser) {
-        setCurrentUser(detailedUser);
+        const updateDetailedUser = {
+          ...detailedUser,
+          connections: detailedUser.connections || [],
+          requestSent: detailedUser.requestSent || [],
+          requestReceived: detailedUser.requestReceived || [],
+          notifications: detailedUser.notifications || [],
+        };
+        setCurrentUser(updateDetailedUser);
+      } else {
+        const newDetailedUser = {
+          ...authUser,
+          connections: [],
+          requestSent: [],
+          requestReceived: [],
+          notifications: [],
+        };
+        setCurrentUser(newDetailedUser);
+        setUserList((prevList) => [...prevList, newDetailedUser]);
       }
     } else {
       setCurrentUser(null);
@@ -39,7 +54,9 @@ export const ConnectionProvider = ({ children }) => {
   }, [authUser, userList]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(userList));
+    if (userList) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(userList));
+    }
   }, [userList]);
 
   const sendConnectionRequest = (targetUserId) => {
@@ -67,7 +84,9 @@ export const ConnectionProvider = ({ children }) => {
     if (result.success) {
       setCurrentUser(result.updatedCurrentUser);
       setUserList(result.updatedUsers);
+      return true;
     }
+    return false;
   };
 
   const value = {
