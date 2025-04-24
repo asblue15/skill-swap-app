@@ -37,7 +37,7 @@ export default function NotificationBell() {
 
   return (
     <div className="relative text-gray-950" ref={notificationRef}>
-      <button onClick={() => setOpen(!open)} className="relative">
+      <button onClick={() => setOpen(!open)} className="custom-button relative">
         <Bell className="w-6 h-6 text-gray-700" />
         {notifications.length > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">

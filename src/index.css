@@ -92,7 +92,7 @@ button:not(.custom-button):focus-visible {
     color: var(--highlight-color);
   }
 
-  button {
+  button:not(.custom-button) {
     background-color: var(--accent-color);
     color: white;
   }

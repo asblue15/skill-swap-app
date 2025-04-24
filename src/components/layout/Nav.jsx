@@ -42,11 +42,11 @@ export default function Nav() {
             </>
           ) : (
             <div className="flex items-center gap-2 relative" ref={dropDownRef}>
-              <span className="text-black px-2">{user.name}</span>
+              <span className="text-black px-2">Hi, {user.name}</span>
               <img
                 src={user.profilePicture || '/logo1.png'}
                 alt={user.name}
-                className="w-8 h-8 rounded-full object-cover"
+                className="w-12 h-12 rounded-full object-cover"
                 onClick={() => setDropDownOpen(!dropDownOpen)}
               />
               {dropDownOpen && (
