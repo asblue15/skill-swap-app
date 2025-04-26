@@ -43,8 +43,7 @@ export default function UserForm({
         url,
         domain,
       };
-    } catch (e) {
-      // If URL is invalid, just return the original
+    } catch {
       return { url, domain: url };
     }
   };
