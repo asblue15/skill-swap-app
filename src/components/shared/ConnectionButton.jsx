@@ -60,7 +60,7 @@ export default function ConnectionButton({
                 );
               }
             }}
-            className="px-3 py-1 text-sm font-medium text-white bg-green-500 rounded-lg"
+            className="custom-button px-6 py-3  text-sm font-medium text-white bg-green-700 rounded-lg"
           >
             Accept
           </button>
@@ -69,7 +69,7 @@ export default function ConnectionButton({
               e.stopPropagation();
               onRespond(userId, false); // Reject
             }}
-            className="px-3 py-1 text-sm font-medium text-white bg-red-500 rounded-lg"
+            className="custom-button px-6 py-3 text-sm font-medium text-white bg-gray-500 rounded-lg"
           >
             Reject
           </button>
@@ -79,7 +79,7 @@ export default function ConnectionButton({
 
     return (
       <button
-        className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg"
+        className="custom-button px-6 py-3 inline-flex items-center text-sm font-medium text-white bg-blue-800 rounded-lg"
         onClick={(e) => {
           e.stopPropagation();
           setShowRespondOptions(true);

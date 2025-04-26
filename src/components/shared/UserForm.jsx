@@ -78,6 +78,7 @@ export default function UserForm({
   });
   const [skillsToTeach, setSkillsToTeach] = useState(userData?.canTeach || []);
   const [categorySkills, setCategorySkills] = useState({});
+  const [isTeachSkillDup, setIsTeachSkillDup] = useState(false);
 
   // learning state-------------------------------------------------------------------------
   const [learnSkillForm, setLearnSkillForm] = useState({
@@ -88,8 +89,9 @@ export default function UserForm({
   });
   const [skillsToLearn, setSkillsToLearn] = useState(userData?.wantsToLearn || []);
   const [learnCategorySkills, setLearnCategorySkills] = useState({});
+  const [isLearnSkillDup, setIsLearnSkillDup] = useState(false);
 
-  // fetch categories and skills
+  // fetch categories and skills------------------------------------------------------------
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -112,7 +114,7 @@ export default function UserForm({
     fetchData();
   }, []);
 
-  // Update form values when userData changes
+  // Update form values when userData changes------------------------------------------------
   useEffect(() => {
     if (userData) {
       setBio(userData.bio || '');
@@ -127,7 +129,7 @@ export default function UserForm({
     }
   }, [userData]);
 
-  // handle teach form changes
+  // handle teach form changes----------------------------------------------------------------
   const handleTeachFormChange = (field, value) => {
     setTeachSkillForm((prev) => {
       if (field === 'category') {
@@ -135,6 +137,18 @@ export default function UserForm({
       }
       return { ...prev, [field]: value };
     });
+    if (field === 'skill' || field === 'customSkill') {
+      const skillName = value === 'Other' ? teachSkillForm.customSkill : value;
+      const dup = skillsToTeach.some(
+        (s) => s.skill.trim().toLowerCase() === skillName.trim().toLowerCase()
+      );
+
+      if (dup) {
+        setIsTeachSkillDup(true);
+      } else {
+        setIsTeachSkillDup(false);
+      }
+    }
   };
 
   const handleAddTeachSkill = () => {
@@ -142,6 +156,15 @@ export default function UserForm({
     const skillName = skill === 'Other' ? customSkill : skill;
 
     if (skillName && skillName.length <= 30 && category) {
+      // Duong's idea: check if skill already exists --> no more "same skill-diff level" bug
+      const dup = skillsToTeach.some(
+        (s) => s.skill.trim().toLowerCase() === skillName.trim().toLowerCase()
+      );
+      if (dup) {
+        setIsTeachSkillDup(true);
+        return;
+      }
+
       const newSkill = {
         skill: skillName,
         category,
@@ -155,6 +178,7 @@ export default function UserForm({
         customSkill: '',
         level: 'Intermediate',
       });
+      setIsTeachSkillDup(false);
     }
   };
 
@@ -162,7 +186,7 @@ export default function UserForm({
     setSkillsToTeach((prevSkills) => prevSkills.filter((_, index) => index !== indexToRemove));
   };
 
-  // handle learn form changes
+  // handle learn form changes-------------------------------------------------------------------------
   const handleLearnFormChange = (field, value) => {
     setLearnSkillForm((prev) => {
       if (field === 'category') {
@@ -170,6 +194,18 @@ export default function UserForm({
       }
       return { ...prev, [field]: value };
     });
+    if (field === 'skill' || field === 'customSkill') {
+      const skillName = value === 'Other' ? learnSkillForm.customSkill : value;
+      const dup = skillsToLearn.some(
+        (s) => s.skill.trim().toLowerCase() === skillName.trim().toLowerCase()
+      );
+
+      if (dup) {
+        setIsLearnSkillDup(true);
+      } else {
+        setIsLearnSkillDup(false);
+      }
+    }
   };
 
   const handleAddLearnSkill = () => {
@@ -177,6 +213,14 @@ export default function UserForm({
     const skillName = skill === 'Other' ? customSkill : skill;
 
     if (skillName && skillName.length <= 30 && category) {
+      // Duong's idea: check if skill already exists --> no more "same skill-diff level" bug
+      const dup = skillsToLearn.some(
+        (s) => s.skill.trim().toLowerCase() === skillName.trim().toLowerCase()
+      );
+      if (dup) {
+        setIsLearnSkillDup(true);
+        return;
+      }
       const newSkill = {
         skill: skillName,
         category,
@@ -189,6 +233,7 @@ export default function UserForm({
         customSkill: '',
         level: 'Beginner',
       });
+      setIsLearnSkillDup(false);
     }
   };
 
@@ -196,7 +241,7 @@ export default function UserForm({
     setSkillsToLearn((prevSkills) => prevSkills.filter((_, index) => index !== indexToRemove));
   };
 
-  // submit changes
+  // submit changes------------------------------------------------------------------------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -230,7 +275,7 @@ export default function UserForm({
       </div>
     );
   }
-
+  // ref: https://flowbite.com/docs/components/forms/-----------------------------------------------------
   return (
     <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg overflow-hidden">
       <div className="grid md:grid-cols-[60%_40%] gap-0">
@@ -253,7 +298,7 @@ export default function UserForm({
                 <div>
                   <p className="font-medium">{skill.skill}</p>
                   <p className="text-sm text-gray-500">
-                    {skill.category} — Level: {skill.level}
+                    {skill.category} — {skill.level}
                   </p>
                 </div>
                 {isEditing && (
@@ -295,7 +340,7 @@ export default function UserForm({
 
                   {teachSkillForm.category && (
                     <div>
-                      <label className="block mb-1">Skill</label>
+                      <label className="block text-sm font-medium text-gray-700">Skill</label>
                       <select
                         value={teachSkillForm.skill}
                         onChange={(e) => handleTeachFormChange('skill', e.target.value)}
@@ -315,7 +360,9 @@ export default function UserForm({
 
                   {teachSkillForm.skill === 'Other' && (
                     <div>
-                      <label className="block mb-1">Custom skill</label>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Custom skill
+                      </label>
                       <input
                         type="text"
                         value={teachSkillForm.customSkill}
@@ -341,6 +388,7 @@ export default function UserForm({
                   </div>
 
                   <div>
+                    {isTeachSkillDup && <p className="text-red-500 text-sm ">skill existed</p>}
                     <button
                       type="button"
                       onClick={handleAddTeachSkill}
@@ -349,7 +397,9 @@ export default function UserForm({
                         !(
                           teachSkillForm.skill &&
                           (teachSkillForm.skill !== 'Other' || teachSkillForm.customSkill)
-                        )
+                        ) ||
+                        skillsToTeach.length >= 4 ||
+                        isTeachSkillDup
                       }
                       className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
                     >
@@ -378,7 +428,7 @@ export default function UserForm({
                 <div>
                   <p className="font-medium">{skill.skill}</p>
                   <p className="text-sm text-gray-500">
-                    {skill.category} — Level: {skill.level}
+                    {skill.category} — {skill.level}
                   </p>
                 </div>
                 {isEditing && (
@@ -396,7 +446,7 @@ export default function UserForm({
             {/* Add learn skill form - only shown in edit mode */}
             {isEditing && (
               <div className="mt-4 border-t pt-4">
-                <h4 className="text-sm font-medium text-gray-700 mb-2">Add New Learning Skill</h4>
+                <h4 className="text-sm font-medium text-gray-700 mb-2">Add New Skill</h4>
                 <div className="flex flex-col md:flex-row gap-3 md:items-end">
                   <div className="flex-1">
                     <label className="block text-sm font-medium text-gray-700">Category</label>
@@ -420,7 +470,7 @@ export default function UserForm({
 
                   {learnSkillForm.category && (
                     <div>
-                      <label className="block mb-1">Skill</label>
+                      <label className="block text-sm font-medium text-gray-700">Skill</label>
                       <select
                         value={learnSkillForm.skill}
                         onChange={(e) => handleLearnFormChange('skill', e.target.value)}
@@ -440,7 +490,9 @@ export default function UserForm({
 
                   {learnSkillForm.skill === 'Other' && (
                     <div>
-                      <label className="block mb-1">Custom skill</label>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Custom skill
+                      </label>
                       <input
                         type="text"
                         value={learnSkillForm.customSkill}
@@ -466,6 +518,7 @@ export default function UserForm({
                   </div>
 
                   <div>
+                    {isLearnSkillDup && <p className="text-red-500 text-sm ">skill existed</p>}
                     <button
                       type="button"
                       onClick={handleAddLearnSkill}
@@ -474,7 +527,9 @@ export default function UserForm({
                         !(
                           learnSkillForm.skill &&
                           (learnSkillForm.skill !== 'Other' || learnSkillForm.customSkill)
-                        )
+                        ) ||
+                        skillsToTeach.length >= 4 ||
+                        isLearnSkillDup
                       }
                       className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
                     >

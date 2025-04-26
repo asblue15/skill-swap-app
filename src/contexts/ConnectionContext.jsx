@@ -54,7 +54,7 @@ export const ConnectionProvider = ({ children }) => {
       const updateDetailedUser = {
         ...detailedUser,
         // merge specific fields from authUser that might have been changed
-        // like name, skills, etc. - but be explicit to avoid loops
+        // like name, skills, etc.
         name: authUser.name,
         email: authUser.email,
         profilePicture: authUser.profilePicture,

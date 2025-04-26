@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../../contexts/UserContext';
 import logo from '../../assets/logo1.png';
 import { useState, useEffect, useRef } from 'react';
@@ -44,13 +44,13 @@ export default function Nav() {
             <div className="flex items-center gap-2 relative" ref={dropDownRef}>
               <span className="text-black px-2">Hi, {user.name}</span>
               <img
-                src={user.profilePicture || '/logo1.png'}
+                src={user.profilePicture || '/images/profiles/default-avt.png'}
                 alt={user.name}
                 className="w-12 h-12 rounded-full object-cover"
                 onClick={() => setDropDownOpen(!dropDownOpen)}
               />
               {dropDownOpen && (
-                <div className="absolute top-full right-0 mt-2 w-30 bg-white rounded-md shadow-lg z-50 flex flex-col text-right text-sm transition ease-out duration-150 transform origin-top scale-95">
+                <div className="absolute top-full right-0 w-24 bg-white rounded-md shadow-lg z-50 flex flex-col text-left text-sm transition ease-out duration-150 transform origin-top scale-95">
                   <Link
                     to="/profile"
                     onClick={() => setDropDownOpen(false)}
@@ -63,7 +63,7 @@ export default function Nav() {
                     onClick={() => setDropDownOpen(false)}
                     className="px-4 py-2 hover:bg-pink-50"
                   >
-                    Connections
+                    Setting
                   </Link>
                   <div
                     onClick={handleLogout}
@@ -82,15 +82,38 @@ export default function Nav() {
           id="navbar-sticky"
         >
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
-            <Link to="/" className="px-4 py-2 hover:bg-pink-50">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
+              }
+            >
               Home
-            </Link>
-            <Link to="/matches" className="px-4 py-2 hover:bg-pink-50">
+            </NavLink>
+            <NavLink
+              to="/matches"
+              className={({ isActive }) =>
+                `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
+              }
+            >
               Your Match
-            </Link>
-            <Link to="/contact-us" className="px-4 py-2 hover:bg-pink-50">
+            </NavLink>
+            <NavLink
+              to="/connections"
+              className={({ isActive }) =>
+                `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
+              }
+            >
+              Connections
+            </NavLink>
+            <NavLink
+              to="/contact-us"
+              className={({ isActive }) =>
+                `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
+              }
+            >
               Contact Us
-            </Link>
+            </NavLink>
           </ul>
         </div>
       </div>

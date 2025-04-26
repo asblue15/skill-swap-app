@@ -53,37 +53,39 @@ export default function NotificationBell() {
             <p className="text-sm text-gray-500">No notifications</p>
           ) : (
             notifications.map((notif, idx) => (
-              <div key={idx} className="border-b pb-2 mb-2">
-                <p className="text-sm text-left">{notif.message}</p>
-                <p className="text-xs text-gray-500 text-left">
-                  {new Date(notif.timestamp).toLocaleString()}
-                </p>
-
-                {notif.type === 'connection' && (
-                  <div className="mt-1 flex gap-5 justify-center">
-                    <button
-                      onClick={() => handleResponse(notif.from, true)}
-                      className="custom-button text-sm bg-green-700 px-2 py-1 rounded text-white"
-                    >
-                      Accept
-                    </button>
-                    <button
-                      onClick={() => handleResponse(notif.from, false)}
-                      className="custom-button text-sm bg-red-700 px-2 py-1 rounded text-white"
-                    >
-                      Reject
-                    </button>
+              <div key={idx} className="border-b border-gray-400 pb-3 mb-3 flex flex-col gap-2">
+                <div className="flex justify-between items-start gap-3">
+                  <div className="flex-1 text-left">
+                    <p className="text-sm text-gray-800">{notif.message}</p>
+                    <span className="text-xs text-gray-500 ">
+                      {new Date(notif.timestamp).toLocaleString()}
+                    </span>
                   </div>
-                )}
 
-                {notif.type !== 'connection' && (
-                  <button
-                    onClick={() => handleDismiss(idx)}
-                    className="text-sm bg-gray-200 text-gray-700 px-2 py-1 rounded mt-1"
-                  >
-                    Dismiss
-                  </button>
-                )}
+                  {notif.type === 'connection' ? (
+                    <div className="flex gap-2 mt-1">
+                      <button
+                        onClick={() => handleResponse(notif.from, true)}
+                        className="custom-button text-sm bg-green-700 hover:bg-green-800 text-white px-3 py-1 rounded"
+                      >
+                        Accept
+                      </button>
+                      <button
+                        onClick={() => handleResponse(notif.from, false)}
+                        className="custom-button text-sm bg-gray-400 hover:bg-gray-500 text-white px-3 py-1 rounded"
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => handleDismiss(idx)}
+                      className="custom-button text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded-full w-8 h-8 flex items-center justify-center"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
               </div>
             ))
           )}
