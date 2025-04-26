@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import Spinner from './Spinner';
 import { getCategories, getUserConnections } from '../../services/mockDataService';
 import UserConnection from './UserConnection';
+import { useConnectionContext } from '../../contexts/ConnectionContext';
 import { useUser } from '../../contexts/UserContext';
 
 export default function UserForm({
   userData,
   onSubmit,
-  isEditing = true, // default to Onboarding
+  isEditing = true, // default to Onboarding | edit mode
   submitButtonText = 'Save Changes',
   showConnections = false,
   navigateToMatches = null,
@@ -18,9 +19,10 @@ export default function UserForm({
   const { user: authUser } = useUser();
   const fullConnections = getUserConnections(userData?.id);
   const isCurrentUser = authUser?.id === userData?.id;
+  const { updateUserInList } = useConnectionContext();
 
   // bio and profile-----------------------------------------------------------------------
-  const MAX_BIO_LENGTH = 150;
+  const MAX_BIO_LENGTH = 100;
   const [bio, setBio] = useState(userData?.bio || '');
   const [profilePicture, setProfilePicture] = useState(
     userData?.profilePicture || '/images/profiles/default-avt.png'
@@ -54,10 +56,16 @@ export default function UserForm({
     .map(formatLink);
 
   // profile pic---------------------------------------------------------------------------
+  // ref https://stackoverflow.com/questions/36280818/how-to-convert-file-to-base64-in-javascript
   const handleProfilePictureChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setProfilePicture(URL.createObjectURL(file));
+      //   setProfilePicture(URL.createObjectURL(file)); inital method
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePicture(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -206,6 +214,7 @@ export default function UserForm({
       };
 
       await onSubmit(updatedUserData);
+      updateUserInList(updatedUserData);
     } catch (error) {
       console.error('Cannot update user data:', error);
       alert('Cannot update data now. Please try again.');
@@ -584,35 +593,6 @@ export default function UserForm({
 
           {/* Connections - only shown if showConnections is true */}
           {showConnections && (
-            // <div className="mb-8">
-            //   <h3 className="text-lg font-semibold mb-4">Connections</h3>
-            //   {userData?.connections?.length > 0 ? (
-            //     <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
-            //       {userData.connections.map((conn) => (
-            //         <div key={conn.id} className="text-center">
-            //           <img
-            //             src={conn.profilePicture}
-            //             alt={conn.name}
-            //             className="w-16 h-16 rounded-full mx-auto object-cover border-2 border-gray-200"
-            //           />
-            //           <p className="text-sm mt-1 font-medium">{conn.name}</p>
-            //         </div>
-            //       ))}
-            //     </div>
-            //   ) : (
-            //     <div className="text-center py-6 bg-gray-50 rounded-lg">
-            //       <p className="text-gray-500">No connections yet.</p>
-            //       {navigateToMatches && (
-            //         <button
-            //           onClick={navigateToMatches}
-            //           className="mt-2 text-blue-600 hover:text-blue-800 font-medium"
-            //         >
-            //           Find matches
-            //         </button>
-            //       )}
-            //     </div>
-            //   )}
-            // </div>
             <UserConnection
               connections={fullConnections}
               isCurrentUser={isCurrentUser}

@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import Spinner from '../components/shared/Spinner';
-import { getUsersExcept } from '../services/mockDataService';
 import UserCard from '../components/shared/UserCard';
 import Toast from '../components/shared/Toast';
+import { useConnectionContext } from '../contexts/ConnectionContext';
 
 export default function MatchesPage() {
   const { user } = useUser();
+  const { userList } = useConnectionContext();
   const [loading, setLoading] = useState(true);
   const [matches, setMatches] = useState({
     perfectMatches: [],
@@ -28,8 +29,7 @@ export default function MatchesPage() {
       setLoading(true);
       try {
         // Get all users except current user
-        const otherUsers = await getUsersExcept();
-
+        const otherUsers = userList.filter((u) => u.id !== user.id);
         // Process matches
         const matchResults = findMatches(user, otherUsers);
 
@@ -72,19 +72,18 @@ export default function MatchesPage() {
       }
     };
 
-    if (user) {
+    if (user && userList) {
       fetchMatches();
     }
-  }, [user]);
+  }, [user, userList]);
 
   // Find matches between current user and other users
   const findMatches = (currentUser, otherUsers) => {
     const perfectMatches = [];
     const goodMatches = [];
-    const basicMatches = [];
 
     if (!currentUser || !currentUser.canTeach || !currentUser.wantsToLearn) {
-      return { perfectMatches, goodMatches, basicMatches };
+      return { perfectMatches, goodMatches };
     }
 
     // Process each potential match
@@ -129,12 +128,10 @@ export default function MatchesPage() {
         perfectMatches.push(matchObject);
       } else if (userCanTeachOther.length > 0 || otherCanTeachUser.length > 0) {
         goodMatches.push(matchObject);
-      } else {
-        basicMatches.push(matchObject);
       }
     });
 
-    return { perfectMatches, goodMatches, basicMatches };
+    return { perfectMatches, goodMatches };
   };
 
   // check if teaching level is compatible with learning level
@@ -181,7 +178,7 @@ export default function MatchesPage() {
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-gray-900">Your potential match</h1>
           <p className="mt-2 text-lg text-gray-600">Hope you could find your perfect match soon.</p>
@@ -216,7 +213,7 @@ export default function MatchesPage() {
           <div className="space-y-10">
             {/* Perfect Matches */}
             {matches.perfectMatches.length > 0 && (
-              <section>
+              <section className="bg-green-50 p-4 rounded-lg">
                 <div className="flex items-center gap-2 mb-4 relative">
                   <h2 className="text-2xl font-bold text-gray-900">Perfect Matches</h2>
                   <div
@@ -228,18 +225,16 @@ export default function MatchesPage() {
                       Two-Way Match
                     </span>
                     <Tooltip show={showPerfectTooltip}>
-                      <p>
-                        Perfect! You can teach them skills they want to learn; they can teach you
-                        skills you want to learn.
-                      </p>
+                      <p className="text-lg">You can teach what they wanna learn, vice versa.</p>
                     </Tooltip>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {/* <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"> */}
+                <div className="flex overflow-x-auto p-4 space-x-4">
                   {matches.perfectMatches.map((match) => (
                     <div
                       key={match.id}
-                      className="border-t-4 border-green-500 rounded-lg overflow-hidden"
+                      className="border-t-4 border-green-500 rounded-lg overflow-hidden flex-shrink-0 w-80"
                     >
                       <UserCard user={match} />
                     </div>
@@ -250,7 +245,7 @@ export default function MatchesPage() {
 
             {/* Good Matches */}
             {matches.goodMatches.length > 0 && (
-              <section>
+              <section className="bg-blue-50 p-4 rounded-lg">
                 <div className="flex items-center gap-2 mb-4 relative">
                   <h2 className="text-2xl font-bold text-gray-900">Good Matches</h2>
                   <div
@@ -262,18 +257,18 @@ export default function MatchesPage() {
                       One-Way Match
                     </span>
                     <Tooltip show={showGoodTooltip}>
-                      <p>
-                        Either you can teach them skills they want to learn, or they can teach you
-                        skills you want to learn, but not both.
+                      <p className="text-lg">
+                        You can teach them OR they can teach you, but not both.
                       </p>
                     </Tooltip>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {/* <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"> */}
+                <div className="flex overflow-x-auto p-4 space-x-4">
                   {matches.goodMatches.map((match) => (
                     <div
                       key={match.id}
-                      className="border-t-4 border-blue-500 rounded-lg overflow-hidden"
+                      className="border-t-4 border-blue-500 rounded-lg overflow-hidden flex-shrink-0 w-80"
                     >
                       <UserCard user={match} />
                     </div>

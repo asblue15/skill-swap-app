@@ -66,7 +66,7 @@ export default function UserCard({ user }) {
             </div>
 
             {/* Teach and Learn Sections */}
-            <div className="mt-2 w-full text-sm px-4">
+            <div className="mt-2 w-full text-sm">
               {user.canTeach.length > 0 && (
                 <div className="flex-1">
                   <div className="bg-blue-50 dark:bg-gray-700 p-3 rounded-lg h-full">

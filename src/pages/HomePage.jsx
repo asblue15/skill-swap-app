@@ -12,11 +12,11 @@ export default function HomePage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchName, setSearchName] = useState('');
-  const usersPerPage = 6;
+  const USERS_PER_PAGE = 6;
 
   const filteredUsers = users.filter((user) => user.id !== currentUser?.id);
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const indexOfLastUser = currentPage * USERS_PER_PAGE;
+  const indexOfFirstUser = indexOfLastUser - USERS_PER_PAGE;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    if (currentPage > Math.ceil(filteredUsers.length / usersPerPage) && currentPage > 1) {
+    if (currentPage > Math.ceil(filteredUsers.length / USERS_PER_PAGE) && currentPage > 1) {
       setCurrentPage(1);
     }
   }, [filteredUsers.length]);
@@ -130,12 +130,12 @@ export default function HomePage() {
   }
 
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(filteredUsers.length / usersPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(filteredUsers.length / USERS_PER_PAGE); i++) {
     pageNumbers.push(i);
   }
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full p-6">
       <div className="container mx-auto px-4 lg:px-6">
         <h1 className="text-2xl font-bold mb-6 text-pink-700">Meet new people</h1>
         <div className="flex flex-col md:flex-row gap-6">
@@ -167,7 +167,7 @@ export default function HomePage() {
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:gap-6">
                   {currentUsers.map((user) => (
                     <UserCard key={user.id} user={user} />
                   ))}

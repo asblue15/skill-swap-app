@@ -41,7 +41,6 @@
       "skills": ["English", "Spanish", "Mandarin"]
     }
   ],
-
   "users": [
     {
       "id": "u1",
@@ -49,16 +48,16 @@
       "email": "alice@example.com",
       "profilePicture": "/images/profiles/alice.jpg",
       "bio": "Passionate about web development and design. I love creating beautiful and functional web applications.",
-      "facebook": "https://facebook.com/alice",
-      "instagram": "https://instagram.com/alice",
-      "x": "https://x.com/alice",
+      "link1": "https://facebook.com/alice",
+      "link2": "https://instagram.com/alice",
+      "link3": "https://x.com/alice",
       "canTeach": [
-        { "skill": "JavaScript", "level": "Advanced" },
-        { "skill": "UI/UX", "level": "Intermediate" }
+        { "skill": "JavaScript", "level": "Expert", "category": "Programming" },
+        { "skill": "UI/UX", "level": "Intermediate", "category": "Design" }
       ],
       "wantsToLearn": [
-        { "skill": "Python", "level": "Beginner" },
-        { "skill": "SEO", "level": "Beginner" }
+        { "skill": "Python", "level": "Beginner", "category": "Programming" },
+        { "skill": "SEO", "level": "Beginner", "category": "Marketing" }
       ],
       "connections": ["u2"],
       "requestSent": ["u3"],
@@ -78,14 +77,14 @@
       "email": "bob@example.com",
       "profilePicture": "/images/profiles/bob.jpg",
       "bio": "Full-stack developer with a passion for creating robust and scalable web applications.",
-      "facebook": "https://facebook.com/bob",
-      "instagram": "https://instagram.com/bob",
-      "x": "https://x.com/bob",
+      "link1": "https://facebook.com/bob",
+      "link2": "https://instagram.com/bob",
+      "link3": "https://x.com/bob",
       "canTeach": [
-        { "skill": "Python", "level": "Advanced" },
-        { "skill": "SEO", "level": "Intermediate" }
+        { "skill": "Python", "level": "Expert", "category": "Programming" },
+        { "skill": "SEO", "level": "Intermediate", "category": "Marketing" }
       ],
-      "wantsToLearn": [{ "skill": "JavaScript", "level": "Beginner" }],
+      "wantsToLearn": [{ "skill": "JavaScript", "level": "Beginner", "category": "Programming" }],
       "connections": ["u1"],
       "requestSent": ["u1"],
       "requestReceived": [],
@@ -97,16 +96,16 @@
       "email": "charlie@example.com",
       "profilePicture": "/images/profiles/charlie.jpg",
       "bio": "Graphic designer and Figma expert, focusing on creating modern, user-friendly designs.",
-      "facebook": "https://facebook.com/charlie",
-      "instagram": "https://instagram.com/charlie",
-      "x": "https://x.com/charlie",
+      "link1": "https://facebook.com/charlie",
+      "link2": "https://instagram.com/charlie",
+      "link3": "https://x.com/charlie",
       "canTeach": [
-        { "skill": "Figma", "level": "Advanced" },
-        { "skill": "Graphic Design", "level": "Intermediate" }
+        { "skill": "Figma", "level": "Expert", "category": "Design" },
+        { "skill": "Graphic Design", "level": "Intermediate", "category": "Design" }
       ],
       "wantsToLearn": [
-        { "skill": "UI/UX", "level": "Beginner" },
-        { "skill": "JavaScript", "level": "Beginner" }
+        { "skill": "UI/UX", "level": "Beginner", "category": "Design" },
+        { "skill": "JavaScript", "level": "Beginner", "category": "Programming" }
       ],
       "connections": [],
       "requestSent": [],
@@ -119,11 +118,11 @@
       "email": "david@example.com",
       "profilePicture": "/images/profiles/david.jpg",
       "bio": "Social media expert with an eye for strategy, helping brands grow through creative marketing.",
-      "facebook": "https://facebook.com/david",
-      "instagram": "https://instagram.com/david",
-      "x": "https://x.com/david",
-      "canTeach": [{ "skill": "Social Media", "level": "Expert" }],
-      "wantsToLearn": [{ "skill": "Python", "level": "Intermediate" }],
+      "link1": "https://facebook.com/david",
+      "link2": "https://instagram.com/david",
+      "link3": "https://x.com/david",
+      "canTeach": [{ "skill": "Social Media", "level": "Expert", "category": "Marketing" }],
+      "wantsToLearn": [{ "skill": "Python", "level": "Intermediate", "category": "Programming" }],
       "connections": ["u1"],
       "requestSent": [],
       "requestReceived": [],
@@ -135,11 +134,11 @@
       "email": "eve@example.com",
       "profilePicture": "/images/profiles/eve.jpg",
       "bio": "Aspiring SEO specialist with a passion for improving search rankings and digital visibility.",
-      "facebook": "https://facebook.com/eve",
-      "instagram": "https://instagram.com/eve",
-      "x": "https://x.com/eve",
+      "link1": "https://facebook.com/eve",
+      "link2": "https://instagram.com/eve",
+      "link3": "https://x.com/eve",
       "canTeach": [],
-      "wantsToLearn": [{ "skill": "SEO", "level": "Beginner" }],
+      "wantsToLearn": [{ "skill": "SEO", "level": "Beginner", "category": "Marketing" }],
       "connections": [],
       "requestSent": ["u3"],
       "requestReceived": [],
