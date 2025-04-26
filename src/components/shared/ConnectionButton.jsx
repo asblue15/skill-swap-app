@@ -22,7 +22,7 @@ export default function ConnectionButton({
   if (isConnected) {
     return (
       <button
-        className="custom-button inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-800 rounded-lg"
+        className="custom-button inline-flex items-center px-4 py-2 text-md font-medium text-white bg-green-800 rounded-lg"
         disabled
       >
         Connected
@@ -33,7 +33,7 @@ export default function ConnectionButton({
   if (effectiveRequestSent) {
     return (
       <button
-        className="custom-button inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gray-400 rounded-lg"
+        className="custom-button inline-flex items-center px-4 py-2 text-md font-medium text-white bg-gray-400 rounded-lg"
         disabled
       >
         Request Sent

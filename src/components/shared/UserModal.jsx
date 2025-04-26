@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function UserModal({ user, onClose }) {
   const modalRef = useRef(null);
@@ -256,13 +257,27 @@ export default function UserModal({ user, onClose }) {
             >
               Say Hi!
             </button>
-            <a
-              href={`/profile/${user.id}`}
-              className="py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:ring-4 focus:ring-gray-100 "
+            <Link
+              to={`/profile/${user.id}`}
+              className="flex gap-2 text-md font-medium p-2 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 "
               onClick={(e) => e.stopPropagation()}
             >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                />
+              </svg>
               Visit Page
-            </a>
+            </Link>
           </div>
         </div>
       </div>

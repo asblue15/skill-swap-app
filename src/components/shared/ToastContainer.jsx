@@ -4,7 +4,7 @@ import Toast from './Toast';
 export default function ToastContainer() {
   const { toast, closeToast } = useConnectionContext();
 
-  console.log('Toast data in container:', toast);
+  //   console.log('Toast data in container:', toast);
   if (!toast?.show) return null;
 
   return (

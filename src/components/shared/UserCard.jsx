@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useConnectionContext } from '../../contexts/ConnectionContext';
 import UserModal from './UserModal';
 import ConnectionButton from './ConnectionButton';
+import { Link } from 'react-router-dom';
 
 export default function UserCard({ user }) {
   const {
@@ -26,8 +27,28 @@ export default function UserCard({ user }) {
 
   return (
     <>
-      <div className="flex flex-col h-full w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex flex-col h-full w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm relative">
         <div className="flex-grow">
+          <Link
+            to={`/profile/${user.id}`}
+            className="absolute top-2 right-2 p-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg hover:bg-pink-100 focus:ring-4 focus:ring-gray-100 "
+            onClick={(e) => e.stopPropagation()}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+              />
+            </svg>
+          </Link>
           <div className="flex flex-col items-center p-5 cursor-pointer" onClick={handleOpen}>
             <img
               className="w-24 h-24 mb-3 rounded-full shadow-lg object-cover"
@@ -97,7 +118,7 @@ export default function UserCard({ user }) {
 
         {/* card footer */}
         <div className="p-5 pt-3 mt-auto border-t border-gray-100 dark:border-gray-700">
-          <div className="flex justify-between gap-3">
+          <div className="flex justify-center">
             <ConnectionButton
               isConnected={isConnected}
               requestSent={requestSent}
@@ -106,13 +127,6 @@ export default function UserCard({ user }) {
               onConnect={sendConnectionRequest}
               onRespond={(userId, accepted) => respondToNotification(userId, accepted)}
             />
-            <a
-              href={`/profile/${user.id}`}
-              className="py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:ring-4 focus:ring-gray-100 "
-              onClick={(e) => e.stopPropagation()}
-            >
-              Visit Page
-            </a>
           </div>
         </div>
       </div>
