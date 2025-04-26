@@ -1,4 +1,4 @@
-import { useConnectionContext } from './contexts/ConnectionContext';
+import { useConnectionContext } from '../../contexts/ConnectionContext';
 import Toast from './Toast';
 
 export default function ToastContainer() {

@@ -60,16 +60,16 @@ export default function NotificationBell() {
                 </p>
 
                 {notif.type === 'connection' && (
-                  <div className="mt-1 flex gap-2 justify-center">
+                  <div className="mt-1 flex gap-5 justify-center">
                     <button
                       onClick={() => handleResponse(notif.from, true)}
-                      className="text-sm bg-green-500 px-2 py-1 rounded"
+                      className="custom-button text-sm bg-green-700 px-2 py-1 rounded text-white"
                     >
                       Accept
                     </button>
                     <button
                       onClick={() => handleResponse(notif.from, false)}
-                      className="text-sm bg-red-500 px-2 py-1 rounded"
+                      className="custom-button text-sm bg-red-700 px-2 py-1 rounded text-white"
                     >
                       Reject
                     </button>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useConnectionContext } from '../../contexts/ConnectionContext';
 
 export default function ConnectionButton({
   isConnected,
@@ -7,10 +8,13 @@ export default function ConnectionButton({
   userId,
   onConnect,
   onRespond,
+  userData,
 }) {
   const [showRespondOptions, setShowRespondOptions] = useState(false);
   const [localRequestSent, setLocalRequestSent] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
+
+  const { showToast } = useConnectionContext();
 
   // either the prop from parent or local state
   const effectiveRequestSent = requestSent || localRequestSent;
@@ -44,7 +48,17 @@ export default function ConnectionButton({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              onRespond(userId, true); // Accept
+              const result = onRespond(userId, true); // Accept
+
+              // Show Toast
+              if (result?.success && userData) {
+                showToast(
+                  userData.name,
+                  `You are connected with ${userData.name}!`,
+                  userData.avatar || '/images/profiles/default-avt.png',
+                  'success'
+                );
+              }
             }}
             className="px-3 py-1 text-sm font-medium text-white bg-green-500 rounded-lg"
           >
@@ -85,13 +99,13 @@ export default function ConnectionButton({
       onClick={(e) => {
         e.stopPropagation();
         setButtonClicked(true);
-        console.log('Connect button clicked for user:', userId);
+        // console.log('Connect button clicked for user:', userId);
 
         // set local state
         setLocalRequestSent(true);
 
         const result = onConnect(userId);
-        console.log('Connection result:', result);
+        // console.log('Connection result:', result);
 
         if (!result) {
           // request failed, reset local state after 2s

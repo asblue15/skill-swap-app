@@ -8,7 +8,7 @@ export default function Toast({
   type = 'success', // 'success', 'info', 'error' --> reuse for many cases
 }) {
   const [isVisible, setIsVisible] = useState(true);
-  const [showConfetti, setShowConfetti] = useState(true);
+  const [showConfetti, _setShowConfetti] = useState(true);
   const toastRef = useRef(null);
 
   // Add confetti animation

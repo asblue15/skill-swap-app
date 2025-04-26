@@ -1,4 +1,3 @@
-Nav;
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../../contexts/UserContext';
 import logo from '../../assets/logo1.png';

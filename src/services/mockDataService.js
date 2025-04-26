@@ -18,6 +18,11 @@ export const getUsers = () => {
   return getData().users;
 };
 
+export const getUsersExcept = (userId) => {
+  const users = getUsers();
+  return users.filter((user) => user.id !== userId);
+};
+
 export const getUserById = (userId) => {
   const users = getUsers();
   return users.find((user) => user.id === userId);
@@ -61,6 +66,12 @@ export const deleteUser = (userId) => {
     return deletedUser;
   }
   return null;
+};
+
+export const getUserConnections = (userId) => {
+  const user = getUserById(userId);
+  if (!user) return [];
+  return user.connections.map((id) => getUserById(id)).filter(Boolean);
 };
 
 export const getCategories = () => {

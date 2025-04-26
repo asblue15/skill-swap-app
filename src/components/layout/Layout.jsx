@@ -6,8 +6,8 @@ import ToastContainer from '../shared/ToastContainer';
 export default function Layout() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <main className="flex-grow">
+      <Nav />
+      <main className="flex-grow pt-30">
         <Outlet />
       </main>
       <Footer />

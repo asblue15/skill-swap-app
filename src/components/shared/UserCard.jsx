@@ -107,7 +107,7 @@ export default function UserCard({ user }) {
               onRespond={(userId, accepted) => respondToNotification(userId, accepted)}
             />
             <a
-              href={`/user/${user.id}`}
+              href={`/profile/${user.id}`}
               className="py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:ring-4 focus:ring-gray-100 "
               onClick={(e) => e.stopPropagation()}
             >

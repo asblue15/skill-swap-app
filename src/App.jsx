@@ -8,6 +8,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import OnboardingPage from './pages/OnboardingPage';
 import MatchesPage from './pages/MatchesPage';
 import NotFound from './pages/NotFoundPage';
+import UserProfilePage from './pages/UserProfilePage';
 
 export default function App() {
   return (
@@ -33,6 +34,22 @@ export default function App() {
           element={
             <ProtectedRoute>
               <OnboardingPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <UserProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile/:userId"
+          element={
+            <ProtectedRoute>
+              <UserProfilePage />
             </ProtectedRoute>
           }
         />
