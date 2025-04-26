@@ -4,7 +4,7 @@ export default function Toast({
   onClose,
   name = 'Jese Leos',
   message = 'Good match',
-  avatar = '/images/profiles/default-avt.png',
+  avatar = '',
   type = 'success', // 'success', 'info', 'error' --> reuse for many cases
 }) {
   const [isVisible, setIsVisible] = useState(true);

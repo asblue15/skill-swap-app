@@ -129,18 +129,18 @@ export const ConnectionProvider = ({ children }) => {
           showToast(
             otherUser.name,
             `You are connected with ${otherUser.name}`,
-            otherUser.avatar,
+            otherUser.profilePicture,
             'success'
           );
           const updatedOtherUser = {
             ...otherUser,
             notifications: [
-              ...(otherUser.notifcations || []),
+              ...(otherUser.notifications || []),
               {
                 type: 'connection_accepted',
                 from: currentUser.id,
                 message: `${currentUser.id} accepted your request!`,
-                timeStamp: new Date().ISOString(),
+                timeStamp: new Date().toISOString,
                 toastShown: false,
               },
             ],
