@@ -49,33 +49,28 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex w-screen h-screen absolute inset-0 overflow-hidden">
-      {/* left */}
-      <div
-        className="hidden md:block w-1/2 h-full bg-cover"
-        style={{ backgroundImage: `url(${bgImage})`, backgroundPosition: '90% center' }}
-      ></div>
-
-      {/* right */}
-      <div className="w-full md:w-1/2 h-full flex flex-col bg-white p-8 overflow-y-auto">
-        {/* logo on top */}
-        <div className="mb-2">
-          <Link to="/" className="flex items-center justify-center">
-            <img src={logo} className="h-16" alt="Skillswap Logo" />
-            <h1 className="font-semibold">Skillswap</h1>
+    <div className="flex w-full h-screen overflow-hidden">
+      {/* Form  */}
+      <div className="w-full md:w-1/2 lg:w-1/3 bg-white flex flex-col p-6 md:p-8 overflow-y-auto">
+        {/* Logo */}
+        <div className="mb-4">
+          <Link to="/" className="flex items-center justify-center md:justify-start">
+            <img src={logo} className="h-12 md:h-16" alt="Skillswap Logo" />
+            <h1 className="font-semibold ml-2 text-lg md:text-xl">Skillswap</h1>
           </Link>
         </div>
 
-        {/* form */}
+        {/* Form Container */}
         <div className="flex-grow flex flex-col justify-center">
           <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto space-y-6">
-            <p className="text-2xl font-semibold text-gray-800 text-left">
+            <p className="text-xl md:text-2xl font-semibold text-gray-800">
               Join 1500+ teachers and learners who earn & learn with us.
             </p>
 
+            {/* Google Sign Up Button */}
             <button
               type="button"
-              className="w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-700 py-2 rounded hover:bg-gray-100 transition"
+              className="w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-700 py-2.5 rounded-lg hover:bg-gray-50 transition duration-200"
               onClick={() => alert('for demo only')}
             >
               <img
@@ -83,22 +78,24 @@ export default function SignupPage() {
                 alt="Google logo"
                 className="w-5 h-5"
               />
-              Sign up with Google
+              <span>Sign up with Google</span>
             </button>
 
-            <div className="flex items-center gap-2">
-              <hr className="flex-grow border-gray-300" />
-              <span className="text-gray-500 text-sm">or</span>
-              <hr className="flex-grow border-gray-300" />
+            {/* Divider */}
+            <div className="flex items-center gap-3 my-4">
+              <hr className="flex-grow border-gray-200" />
+              <span className="text-gray-500 text-sm font-medium">or</span>
+              <hr className="flex-grow border-gray-200" />
             </div>
 
+            {/* Input */}
             <div className="space-y-4">
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Full Name"
-                className="w-full border border-gray-300 rounded px-3 py-2"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-400 transition"
                 required
               />
               <input
@@ -106,7 +103,7 @@ export default function SignupPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
-                className="w-full border border-gray-300 rounded px-3 py-2"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-400 transition"
                 required
               />
               <input
@@ -114,34 +111,35 @@ export default function SignupPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
-                className="w-full border border-gray-300 rounded px-3 py-2"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-400 transition"
                 required
               />
             </div>
 
+            {/* Submit */}
             <button
               type="submit"
-              className="w-full py-2 rounded text-white"
+              className="w-full py-2.5 rounded-lg text-white font-medium hover:bg-pink-700 transition duration-200"
               style={{ backgroundColor: 'var(--primary-color)' }}
               disabled={loading}
             >
               {loading ? <Spinner size="sm" /> : 'Create Account'}
             </button>
 
-            {/* terms */}
+            {/* Terms */}
             <p className="text-sm text-gray-500 text-left">
               You agree to our{' '}
-              <a href="/terms" className="underline">
+              <a href="/terms" className="underline hover:text-gray-700">
                 Terms of Use
               </a>{' '}
               and{' '}
-              <a href="/privacy" className="underline">
+              <a href="/privacy" className="underline hover:text-gray-700">
                 Privacy Policy
               </a>
               .
             </p>
 
-            {/* signIn */}
+            {/* Sign In Link */}
             <div className="text-sm text-gray-800 text-left">
               Already have an account?{' '}
               <Link
@@ -155,6 +153,11 @@ export default function SignupPage() {
           </form>
         </div>
       </div>
+      {/* bg img right */}
+      <div
+        className="hidden md:block md:w-1/2 lg:w-2/3 bg-cover bg-center"
+        style={{ backgroundImage: `url(${bgImage})` }}
+      ></div>
     </div>
   );
 }

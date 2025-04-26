@@ -23,9 +23,15 @@ UI/UX enhancement:
 Refactoring and optimization: 
 */
 
-// {data} is fetched data from parent pass down. 
+// {data} is fetched data from parent pass down.
 // {onFilter} a cb to pass the selected filters to the parent component.
-export default function FilterSkill ({ data, onFilter, searchName, onSearchNameChange, handleReset}) {
+export default function FilterSkill({
+  data,
+  onFilter,
+  searchName,
+  onSearchNameChange,
+  handleReset,
+}) {
   // State hooks for filter options
   // const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedSkills, setSelectedSkills] = useState([]);
@@ -39,10 +45,11 @@ export default function FilterSkill ({ data, onFilter, searchName, onSearchNameC
 
   // Handle skill selection
   const toggleSkillSelection = (skill) => {
-    setSelectedSkills((prevSkills) =>
-      prevSkills.includes(skill)
-        ? prevSkills.filter((s) => s !== skill) // Remove skill if already selected
-        : [...prevSkills, skill] // Add skill if not selected
+    setSelectedSkills(
+      (prevSkills) =>
+        prevSkills.includes(skill)
+          ? prevSkills.filter((s) => s !== skill) // Remove skill if already selected
+          : [...prevSkills, skill] // Add skill if not selected
     );
   };
 
@@ -75,11 +82,13 @@ export default function FilterSkill ({ data, onFilter, searchName, onSearchNameC
   return (
     <div className="p-6 bg-white dark:bg-gray-900 shadow-md h-fit sticky top-16 flex flex-col justify-between max-h-[calc(100vh-4rem)] overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full  [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
       <h2 className="text-xl font-semibold mb-4 text-[#2F2D2E] dark:text-gray-100">Filters</h2>
-      <SearchBar value={searchName} onChange={onSearchNameChange}/>
+      <SearchBar value={searchName} onChange={onSearchNameChange} />
       <form className="space-y-6" onSubmit={handleSubmit}>
         {/* Skill Category */}
         <div>
-          <label className="block font-medium mb-2 text-[#2F2D2E] dark:text-gray-100">Skill Category</label>
+          <label className="block font-medium mb-2 text-[#2F2D2E] dark:text-gray-100">
+            Skill Category
+          </label>
           <div className="">
             {data.categories.map((category) => (
               <div key={category.id}>
@@ -90,15 +99,14 @@ export default function FilterSkill ({ data, onFilter, searchName, onSearchNameC
                   className="flex items-center justify-between w-full text-sm font-medium !text-gray-700 !focus:outline-none !focus:ring-0 dark:text-white py-2 px-1 !bg-white dark:bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 rounded"
                 >
                   <span>{category.name}</span>
-                  <span className="text-lg">
-                    {openCategory === category.id ? "▾" : "▸"}
-                  </span>
+                  <span className="text-lg">{openCategory === category.id ? '▾' : '▸'}</span>
                 </button>
 
                 {/* Skills List with transition */}
                 <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${openCategory === category.id ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                    }`}
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    openCategory === category.id ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                  }`}
                 >
                   <ul className="ml-2 mt-2 space-y-2 pl-2 border-l border-gray-300 dark:border-gray-600">
                     {category.skills.map((skill) => (
@@ -112,10 +120,11 @@ export default function FilterSkill ({ data, onFilter, searchName, onSearchNameC
                             onChange={() => toggleSkillSelection(skill)}
                           />
                           <span
-                            className={`text-sm font-medium ${selectedSkills.includes(skill)
-                              ? "text-pink-600 font-semibold"
-                              : "text-gray-800 dark:text-gray-200"
-                              }`}
+                            className={`text-sm font-medium ${
+                              selectedSkills.includes(skill)
+                                ? 'text-pink-600 font-semibold'
+                                : 'text-gray-800 dark:text-gray-200'
+                            }`}
                           >
                             {skill}
                           </span>
@@ -126,13 +135,14 @@ export default function FilterSkill ({ data, onFilter, searchName, onSearchNameC
                 </div>
               </div>
             ))}
-
           </div>
         </div>
 
         {/* Skill Level Dropdown */}
         <div className="text-[#2F2D2E] dark:text-gray-100">
-          <label className="block font-medium mb-2 text-[#2F2D2E] dark:text-gray-100">Skill Level</label>
+          <label className="block font-medium mb-2 text-[#2F2D2E] dark:text-gray-100">
+            Skill Level
+          </label>
           <select
             value={selectedLevel}
             onChange={(e) => setSelectedLevel(e.target.value)}
@@ -165,20 +175,22 @@ export default function FilterSkill ({ data, onFilter, searchName, onSearchNameC
             type="submit"
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200"
           >
-            Apply Filter
+            Apply
           </button>
           <button
             type="button"
             className={`bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200 ${
-                selectedSkills.length === 0 &&
-                selectedLevel === '' &&
-                selectedType === '' &&
-                searchName.length === 0
-                  ? 'opacity-50 cursor-not-allowed'
-                  : ''
-              }`}
+              selectedSkills.length === 0 &&
+              selectedLevel === '' &&
+              selectedType === '' &&
+              searchName.length === 0
+                ? 'opacity-50 cursor-not-allowed'
+                : ''
+            }`}
             onClick={handleResetFilter}
-            disabled={searchName.length === 0 && !selectedSkills.length && !selectedLevel && !selectedType}
+            disabled={
+              searchName.length === 0 && !selectedSkills.length && !selectedLevel && !selectedType
+            }
           >
             <FontAwesomeIcon icon={faTimes} className="mr-2" />
             Clear
@@ -187,4 +199,4 @@ export default function FilterSkill ({ data, onFilter, searchName, onSearchNameC
       </form>
     </div>
   );
-};
+}

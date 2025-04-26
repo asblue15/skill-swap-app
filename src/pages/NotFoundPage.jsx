@@ -8,11 +8,6 @@ export default function NotFound() {
       className="min-h-screen bg-cover bg-no-repeat flex items-center justify-center"
       style={{
         backgroundImage: `url(${backgroundImage})`,
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        position: 'absolute',
       }}
     >
       <Nav />

@@ -135,59 +135,65 @@ export default function HomePage() {
   }
 
   return (
-    <div className="py-4 my-5 flex flex-col w-full">
-      <h1 className="text-2xl font-bold mb-6 text-pink-700 rounded-sm px-3">Meet new people</h1>
-      <div className="flex flex-col md:flex-row gap-4">
-        <aside className="w-78 bg-white dark:bg-gray-800 shadow-md h-[calc(100vh-4rem)] sticky top-25">
-          <FilterSkill
-            data={data}
-            onFilter={onFilter}
-            searchName={searchName}
-            onSearchNameChange={handleSearchChange}
-            handleReset={handleResetFilter}
-          />
-        </aside>
-        <div className="flex-1">
-          {users.length === 0 ? (
-            <div className="text-center text-gray-500 dark:text-gray-400">
-              <p className="text-lg font-semibold">No results found.</p>
-              <p className="text-sm">Try adjusting your search or filter criteria.</p>
-            </div>
-          ) : (
-            <>
-              {currentUser && currentUser.connections.length === 0 && (
-                <div className="mb-6 bg-blue-50 p-4 rounded-lg border border-blue-200">
-                  <p className="text-blue-800">
-                    You haven't connected with anyone yet! Start making friends now.
-                  </p>
+    <div className="flex flex-col w-full">
+      <div className="container mx-auto px-4 lg:px-6">
+        <h1 className="text-2xl font-bold mb-6 text-pink-700">Meet new people</h1>
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Sidebar with filters */}
+          <aside className="md:w-1/4 lg:w-1/5 bg-white dark:bg-gray-800 rounded-lg p-4 h-fit md:sticky top-24">
+            <FilterSkill
+              data={data}
+              onFilter={onFilter}
+              searchName={searchName}
+              onSearchNameChange={handleSearchChange}
+              handleReset={handleResetFilter}
+            />
+          </aside>
+
+          {/* Main content area */}
+          <div className="flex-1">
+            {users.length === 0 ? (
+              <div className="text-center text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 shadow-md rounded-lg p-8">
+                <p className="text-lg font-semibold">No results found.</p>
+                <p className="text-sm">Try adjusting your search or filter criteria.</p>
+              </div>
+            ) : (
+              <>
+                {currentUser && currentUser.connections.length === 0 && (
+                  <div className="mb-6 bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <p className="text-blue-800">
+                      You haven't connected with anyone yet! Start making friends now.
+                    </p>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                  {currentUsers.map((user) => (
+                    <UserCard key={user.id} user={user} />
+                  ))}
                 </div>
-              )}
-            </>
-          )}
+              </>
+            )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {currentUsers.map((user) => (
-              <UserCard key={user.id} user={user} />
-            ))}
+            {/* Pagination */}
+            {pageNumbers.length > 1 && (
+              <div className="flex justify-center mt-8 gap-2">
+                {pageNumbers.map((number) => (
+                  <button
+                    key={number}
+                    onClick={() => setCurrentPage(number)}
+                    className={`px-4 py-2 rounded-md ${
+                      currentPage === number
+                        ? 'bg-pink-800 text-white'
+                        : 'bg-gray-200 hover:bg-gray-300'
+                    }`}
+                  >
+                    {number}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-
-          {pageNumbers.length > 1 && (
-            <div className="flex justify-center mt-8 gap-2">
-              {pageNumbers.map((number) => (
-                <button
-                  key={number}
-                  onClick={() => setCurrentPage(number)}
-                  className={`px-4 py-2 rounded-md ${
-                    currentPage === number
-                      ? 'bg-pink-800 text-white'
-                      : 'bg-gray-200 hover:bg-gray-300'
-                  }`}
-                >
-                  {number}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </div>
