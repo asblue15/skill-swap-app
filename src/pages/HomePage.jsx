@@ -3,7 +3,7 @@ import UserCard from '../components/shared/UserCard';
 import Spinner from '../components/shared/Spinner';
 import { getUsers, getData } from '../services/mockDataService';
 import { useConnectionContext } from '../contexts/ConnectionContext';
-import FilterSkill from '../components/searchFilter/FilterSkill';
+import FilterSkill from '../components/feature/search-filter/FilterSkill';
 
 export default function HomePage() {
   const { user: currentUser } = useConnectionContext();
@@ -52,20 +52,19 @@ export default function HomePage() {
   const handleResetFilter = () => {
     setSearchName('');
     setUsers(data.users);
-  }
+  };
   const handleSearchChange = (value) => {
     setSearchName(value);
-   
+
     // If the search input is empty, reset to the full user list
     if (!value || value.length < 3) {
       onFilter({ skill: [], level: '', type: '' }); // Reset filters and show all users
       return;
     }
-  
+
     // Filter users by name and combine with existing filters
     onFilter({ skill: [], level: '', type: '' }); // Pass empty filters for now
   };
- 
 
   const onFilter = (filterObject) => {
     const { skill, level, type } = filterObject;
@@ -84,9 +83,9 @@ export default function HomePage() {
 
       // Filter by skill, level, and type
       let skillsArray = [];
-      if (type === "Teach") {
+      if (type === 'Teach') {
         skillsArray = user.canTeach || [];
-      } else if (type === "Learn") {
+      } else if (type === 'Learn') {
         skillsArray = user.wantsToLearn || [];
       } else {
         skillsArray = [...(user.canTeach || []), ...(user.wantsToLearn || [])];
@@ -94,14 +93,10 @@ export default function HomePage() {
 
       if (level && skill.length > 0) {
         return skillsArray.some(
-          (item) =>
-            skill.includes(item.skill) &&
-            item.level.toLowerCase() === level.toLowerCase()
+          (item) => skill.includes(item.skill) && item.level.toLowerCase() === level.toLowerCase()
         );
       } else if (level) {
-        return skillsArray.some(
-          (item) => item.level.toLowerCase() === level.toLowerCase()
-        );
+        return skillsArray.some((item) => item.level.toLowerCase() === level.toLowerCase());
       } else if (skill.length > 0) {
         return skillsArray.some((item) => skill.includes(item.skill));
       }
@@ -111,9 +106,6 @@ export default function HomePage() {
 
     setUsers(filterResult);
   };
- 
-  
-
 
   useEffect(() => {
     if (currentPage > Math.ceil(filteredUsers.length / usersPerPage) && currentPage > 1) {
@@ -147,9 +139,15 @@ export default function HomePage() {
       <h1 className="text-2xl font-bold mb-6 text-pink-700 rounded-sm px-3">Meet new people</h1>
       <div className="flex flex-col md:flex-row gap-4">
         <aside className="w-78 bg-white dark:bg-gray-800 shadow-md h-[calc(100vh-4rem)] sticky top-25">
-          <FilterSkill data={data} onFilter={onFilter} searchName={searchName} onSearchNameChange={handleSearchChange} handleReset={handleResetFilter}/>
+          <FilterSkill
+            data={data}
+            onFilter={onFilter}
+            searchName={searchName}
+            onSearchNameChange={handleSearchChange}
+            handleReset={handleResetFilter}
+          />
         </aside>
-        <div className='flex-1'>
+        <div className="flex-1">
           {users.length === 0 ? (
             <div className="text-center text-gray-500 dark:text-gray-400">
               <p className="text-lg font-semibold">No results found.</p>
@@ -179,8 +177,11 @@ export default function HomePage() {
                 <button
                   key={number}
                   onClick={() => setCurrentPage(number)}
-                  className={`px-4 py-2 rounded-md ${currentPage === number ? 'bg-pink-800 text-white' : 'bg-gray-200 hover:bg-gray-300'
-                    }`}
+                  className={`px-4 py-2 rounded-md ${
+                    currentPage === number
+                      ? 'bg-pink-800 text-white'
+                      : 'bg-gray-200 hover:bg-gray-300'
+                  }`}
                 >
                   {number}
                 </button>

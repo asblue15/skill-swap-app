@@ -1,3 +1,4 @@
+Nav;
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../../contexts/UserContext';
 import logo from '../../assets/logo1.png';
@@ -82,20 +83,15 @@ export default function Nav() {
           id="navbar-sticky"
         >
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
-            <li>
-              <a href="#" aria-current="page">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#about">About</a>
-            </li>
-            <li>
-              <a href="#services">Services</a>
-            </li>
-            <li>
-              <a href="#contact">Contact</a>
-            </li>
+            <Link to="/" className="px-4 py-2 hover:bg-pink-50">
+              Home
+            </Link>
+            <Link to="/matches" className="px-4 py-2 hover:bg-pink-50">
+              Your Match
+            </Link>
+            <Link to="/contact-us" className="px-4 py-2 hover:bg-pink-50">
+              Contact Us
+            </Link>
           </ul>
         </div>
       </div>
