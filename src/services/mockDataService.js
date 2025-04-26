@@ -24,8 +24,9 @@ export const getUsersExcept = (userId) => {
 };
 
 export const getUserById = (userId) => {
-  const users = getUsers();
-  return users.find((user) => user.id === userId);
+  const storedData = JSON.parse(localStorage.getItem('skillswap_user_data')) || [];
+  const user = storedData.find((u) => u.id === userId);
+  return user || null;
 };
 
 export const getUserByName = (userName) => {
@@ -71,7 +72,7 @@ export const deleteUser = (userId) => {
 export const getUserConnections = (userId) => {
   const user = getUserById(userId);
   if (!user) return [];
-  return user.connections.map((id) => getUserById(id)).filter(Boolean);
+  return (user.connections || []).map((id) => getUserById(id)).filter(Boolean);
 };
 
 export const getCategories = () => {
