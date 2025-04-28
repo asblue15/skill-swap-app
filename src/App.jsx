@@ -9,6 +9,7 @@ import OnboardingPage from './pages/OnboardingPage';
 import MatchesPage from './pages/MatchesPage';
 import NotFound from './pages/NotFoundPage';
 import UserProfilePage from './pages/UserProfilePage';
+import LandingPage from './pages/LandingPage';  
 
 export default function App() {
   return (
@@ -66,6 +67,7 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="/landing" element={<LandingPage />} />
     </Routes>
   );
 }
