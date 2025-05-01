@@ -5,6 +5,8 @@ import CarouselSection from '../components/landing/Carousel';
 import TeacherSection from '../components/landing/TeacherSection';
 import SkillsSection from '../components/landing/SkillsSection';
 import ReviewSection from '../components/landing/ReviewSection';
+import StorySection from '../components/landing/StorySection';
+
 
 export default function LandingPage() {
   return (
@@ -13,6 +15,7 @@ export default function LandingPage() {
       <main className="flex-grow pt-28 w-full bg-white">
         <HeroSection />
         <CarouselSection />
+        <StorySection />
         <TeacherSection />
         <SkillsSection />
         <ReviewSection />
