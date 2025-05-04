@@ -5,7 +5,7 @@ import UserConnection from './UserConnection';
 import { useConnectionContext } from '../../contexts/ConnectionContext';
 import { useUser } from '../../contexts/UserContext';
 
-// Helper function to check skill level compatibility
+// check skill level compatibility
 const isSkillLevelCompatible = (teachLevel, learnLevel) => {
   const levelRank = {
     Beginner: 1,
@@ -53,7 +53,6 @@ const SkillForm = ({
   errorMessage,
 }) => {
   const fieldLabel = skillType === 'teach' ? 'Level I can teach' : 'My current Level';
-  const defaultLevel = skillType === 'teach' ? 'Intermediate' : 'Beginner';
 
   return (
     <div className="mt-4 border-t pt-4">
@@ -192,7 +191,7 @@ export default function UserForm({
 }) {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [, setCategories] = useState([]);
   const { user: authUser } = useUser();
   const fullConnections = getUserConnections(userData?.id);
   const isCurrentUser = authUser?.id === userData?.id;
