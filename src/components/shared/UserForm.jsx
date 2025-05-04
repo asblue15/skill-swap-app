@@ -304,7 +304,7 @@ export default function UserForm({
                 {isEditing && (
                   <button
                     type="button"
-                    className="text-red-500 hover:text-red-700 text-sm"
+                    className="custom-button px-4 py-2 bg-red-700 text-white rounded"
                     onClick={() => handleRemoveTeachSkill(index)}
                   >
                     -
@@ -375,15 +375,17 @@ export default function UserForm({
                   )}
 
                   <div className="flex-1">
-                    <label className="block text-sm font-medium text-gray-700">Level</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Level I can teach
+                    </label>
                     <select
                       value={teachSkillForm.level}
                       onChange={(e) => handleTeachFormChange('level', e.target.value)}
                       className="w-full border p-2 rounded"
                     >
-                      <option value="beginner">Beginner</option>
-                      <option value="intermediate">Intermediate</option>
-                      <option value="expert">Expert</option>
+                      <option value="Beginner">Beginner</option>
+                      <option value="Intermediate">Intermediate</option>
+                      <option value="Expert">Expert</option>
                     </select>
                   </div>
 
@@ -401,7 +403,7 @@ export default function UserForm({
                         skillsToTeach.length >= 4 ||
                         isTeachSkillDup
                       }
-                      className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
+                      className="custom-button px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
                     >
                       +
                     </button>
@@ -434,7 +436,7 @@ export default function UserForm({
                 {isEditing && (
                   <button
                     type="button"
-                    className="text-red-500 hover:text-red-700 text-sm"
+                    className="custom-button px-4 py-2 bg-red-700 text-white rounded"
                     onClick={() => handleRemoveLearnSkill(index)}
                   >
                     -
@@ -505,15 +507,17 @@ export default function UserForm({
                   )}
 
                   <div className="flex-1">
-                    <label className="block text-sm font-medium text-gray-700">Level</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      My current Level
+                    </label>
                     <select
                       value={learnSkillForm.level}
                       onChange={(e) => handleLearnFormChange('level', e.target.value)}
                       className="w-full border p-2 rounded"
                     >
-                      <option value="beginner">Beginner</option>
-                      <option value="intermediate">Intermediate</option>
-                      <option value="expert">Expert</option>
+                      <option value="Beginner">Beginner</option>
+                      <option value="Intermediate">Intermediate</option>
+                      <option value="Expert">Expert</option>
                     </select>
                   </div>
 
@@ -528,10 +532,10 @@ export default function UserForm({
                           learnSkillForm.skill &&
                           (learnSkillForm.skill !== 'Other' || learnSkillForm.customSkill)
                         ) ||
-                        skillsToTeach.length >= 4 ||
+                        skillsToLearn.length >= 4 ||
                         isLearnSkillDup
                       }
-                      className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
+                      className="custom-button px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
                     >
                       +
                     </button>
