@@ -9,13 +9,12 @@ import OnboardingPage from './pages/OnboardingPage';
 import MatchesPage from './pages/MatchesPage';
 import NotFound from './pages/NotFoundPage';
 import UserProfilePage from './pages/UserProfilePage';
-import LandingPage from './pages/LandingPage';  
+import LandingPage from './pages/LandingPage';
 
 export default function App() {
   return (
     <Routes>
       <Route
-        path="/"
         element={
           <ProtectedRoute>
             <Layout />
@@ -63,11 +62,11 @@ export default function App() {
           }
         />
       </Route>
-      {/* without nav+footer */}
+      {/* public routes without nav+footer */}
+      <Route path="/landing" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="*" element={<NotFound />} />
-      <Route path="/landing" element={<LandingPage />} />
     </Routes>
   );
 }

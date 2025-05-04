@@ -1,26 +1,23 @@
 import Nav from '../components/layout/Nav';
-import Footer from '../components/layout/Footer';
 import HeroSection from '../components/landing/HeroSection';
 import CarouselSection from '../components/landing/Carousel';
 import TeacherSection from '../components/landing/TeacherSection';
 import SkillsSection from '../components/landing/SkillsSection';
 import ReviewSection from '../components/landing/ReviewSection';
 import StorySection from '../components/landing/StorySection';
-
+import Footer from '../components/layout/Footer';
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen w-full">
+    <main className="flex-grow w-full bg-white">
       <Nav />
-      <main className="flex-grow pt-28 w-full bg-white">
-        <HeroSection />
-        <CarouselSection />
-        <StorySection />
-        <TeacherSection />
-        <SkillsSection />
-        <ReviewSection />
-      </main>
+      <HeroSection />
+      <CarouselSection />
+      <StorySection />
+      <TeacherSection />
+      <SkillsSection />
+      <ReviewSection />
       <Footer />
-    </div>
+    </main>
   );
 }

@@ -27,14 +27,14 @@ export default function Nav() {
   }, []);
 
   return (
-    <nav className="fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 bg-transparent backdrop-blur-xl shadow-xl">
+    <nav className="font-bold fixed w-full z-20 top-0 start-0 border-b border-gray-200 bg-white/60 backdrop-blur-xl shadow-xl">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link to="/" className="flex items-center rtl:space-x-reverse">
           <img src={logo} className="h-20" alt="Skillswap Logo" />
           <h1 className="self-center font-semibold whitespace-nowrap dark:text-white">Skillswap</h1>
         </Link>
 
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-2">
+        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-6">
           {!user ? (
             <>
               <Link to="/signup">Sign Up</Link>
@@ -77,45 +77,47 @@ export default function Nav() {
             </div>
           )}
         </div>
-        <div
-          className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-          id="navbar-sticky"
-        >
-          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
-              }
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to="/matches"
-              className={({ isActive }) =>
-                `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
-              }
-            >
-              My Matches
-            </NavLink>
-            <NavLink
-              to="/connections"
-              className={({ isActive }) =>
-                `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
-              }
-            >
-              Connections
-            </NavLink>
-            <NavLink
-              to="/contact-us"
-              className={({ isActive }) =>
-                `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
-              }
-            >
-              Contact Us
-            </NavLink>
-          </ul>
-        </div>
+        {user && (
+          <div
+            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+            id="navbar-sticky"
+          >
+            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
+                }
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/matches"
+                className={({ isActive }) =>
+                  `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
+                }
+              >
+                My Matches
+              </NavLink>
+              <NavLink
+                to="/connections"
+                className={({ isActive }) =>
+                  `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
+                }
+              >
+                Connections
+              </NavLink>
+              <NavLink
+                to="/contact-us"
+                className={({ isActive }) =>
+                  `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
+                }
+              >
+                Contact Us
+              </NavLink>
+            </ul>
+          </div>
+        )}
       </div>
     </nav>
   );

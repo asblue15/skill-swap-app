@@ -7,7 +7,7 @@ const TeacherSection = () => {
       <div className="mx-auto">
         <p className="text-6xl mb-4 text-black">A teacher was once a student</p>
         <p className="text-gray-600 text-lg mb-24">
-          They were once a beginner too.
+          They were beginners too.
           <br />
           They struggled, learned, and kept going — just like you.
         </p>

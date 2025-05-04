@@ -22,19 +22,9 @@ export default function HeroSection() {
             >
               Learn it. Share it. Grow together.
             </h1>
-            <p
-              className="text-xl md:text-2xl mb-8 max-w-xl"
-              style={{
-                fontFamily: 'Poppins, sans-serif',
-                fontWeight: 500,
-                fontSize: '22px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                color: '#000000',
-              }}
-            >
-              Join a global community where learning becomes social and grow with people just like
-              you.
+            <p className="text-xl md:text-2xl mb-8 max-w-xl font-poppins font-medium leading-relaxed tracking-normal text-black">
+              Join a global community where learning becomes social & grow with people like{' '}
+              <span className="underline">you</span>.
             </p>
             <div>
               <Link
