@@ -96,7 +96,7 @@ export default function Nav() {
                 `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
               }
             >
-              Your Match
+              My Matches
             </NavLink>
             <NavLink
               to="/connections"

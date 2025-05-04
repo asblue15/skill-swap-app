@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom"
-import community from "../../assets/community.png"
+import { Link } from 'react-router-dom';
+import community from '../../assets/community.png';
 
 export default function HeroSection() {
   return (
@@ -11,32 +11,36 @@ export default function HeroSection() {
             <h1
               className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
               style={{
-                fontFamily: "Poppins, sans-serif",
+                fontFamily: 'Poppins, sans-serif',
                 fontWeight: 600,
-                fontSize: "64px",
-                lineHeight: "84px",
-                letterSpacing: "0%",
-                color: "#000000",
+                fontSize: '64px',
+                lineHeight: '84px',
+                letterSpacing: '0%',
+                color: '#000000',
+                textTransform: 'uppercase',
               }}
             >
-              DREAM IT. BUILD IT. MONETIZE IT.
+              Learn it. Share it. Grow together.
             </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-xl" style={{
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: 500,
-              fontSize: "22px",
-              lineHeight: "100%",
-              letterSpacing: "0%",
-              color: "#000000"
-            }}>
-              Join a global community of learners and master your craft with high-quality, hands-on classes that bring
-              your ideas to life with SkillSwapLite
+            <p
+              className="text-xl md:text-2xl mb-8 max-w-xl"
+              style={{
+                fontFamily: 'Poppins, sans-serif',
+                fontWeight: 500,
+                fontSize: '22px',
+                lineHeight: '100%',
+                letterSpacing: '0%',
+                color: '#000000',
+              }}
+            >
+              Join a global community where learning becomes social and grow with people just like
+              you.
             </p>
             <div>
               <Link
                 to="/signup"
                 className="inline-flex items-center bg-black text-white px-10 py-4 text-xl rounded-md hover:bg-gray-800 transition-colors"
-                style={{ fontFamily: "Poppins, sans-serif" }}
+                style={{ fontFamily: 'Poppins, sans-serif' }}
               >
                 Get Started
                 <svg
@@ -60,7 +64,7 @@ export default function HeroSection() {
         <div className="w-full md:w-1/2 bg-[#fbbf24] py-24 md:py-32 lg:py-40 flex items-center justify-center overflow-hidden">
           <div className="transform scale-100 md:scale-110">
             <img
-              src={community || "/placeholder.svg"}
+              src={community || '/placeholder.svg'}
               alt="People connected in a learning community"
               className="w-[85%] h-auto mx-auto"
             />
@@ -68,5 +72,5 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
