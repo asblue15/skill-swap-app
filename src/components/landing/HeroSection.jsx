@@ -6,15 +6,29 @@ export default function HeroSection() {
     <section className="w-full">
       <div className="flex flex-col md:flex-row">
         {/* Left Side - Pink Section with Text */}
-        <div className="w-full md:w-1/2 bg-[#f9a8d4] py-24 md:py-32 lg:py-40 px-8 md:px-16 flex flex-col justify-center">
+        <div className="w-full md:w-1/2 bg-[#ff90e8] py-24 md:py-32 lg:py-40 px-8 md:px-16 flex flex-col justify-center">
           <div className="w-full text-left">
             <h1
               className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
-              style={{ fontFamily: "var(--secondary-font)" }}
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 600,
+                fontSize: "64px",
+                lineHeight: "84px",
+                letterSpacing: "0%",
+                color: "#000000",
+              }}
             >
               DREAM IT. BUILD IT. MONETIZE IT.
             </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-xl">
+            <p className="text-xl md:text-2xl mb-8 max-w-xl" style={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 500,
+              fontSize: "22px",
+              lineHeight: "100%",
+              letterSpacing: "0%",
+              color: "#000000"
+            }}>
               Join a global community of learners and master your craft with high-quality, hands-on classes that bring
               your ideas to life with SkillSwapLite
             </p>
@@ -22,6 +36,7 @@ export default function HeroSection() {
               <Link
                 to="/signup"
                 className="inline-flex items-center bg-black text-white px-10 py-4 text-xl rounded-md hover:bg-gray-800 transition-colors"
+                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 Get Started
                 <svg
@@ -43,11 +58,11 @@ export default function HeroSection() {
 
         {/* Right Side - Yellow Section with Image */}
         <div className="w-full md:w-1/2 bg-[#fbbf24] py-24 md:py-32 lg:py-40 flex items-center justify-center overflow-hidden">
-          <div className="transform scale-110 md:scale-125">
+          <div className="transform scale-100 md:scale-110">
             <img
-              src={community}
+              src={community || "/placeholder.svg"}
               alt="People connected in a learning community"
-              className="w-full h-auto"
+              className="w-[85%] h-auto mx-auto"
             />
           </div>
         </div>

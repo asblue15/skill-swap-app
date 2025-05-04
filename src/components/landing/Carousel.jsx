@@ -61,7 +61,7 @@ export default function CarouselSection() {
     },
     {
       name: "Productivity",
-      image: productivity
+      image: productivity,
     },
     {
       name: "Film & Video",
@@ -88,23 +88,36 @@ export default function CarouselSection() {
       image: marketing,
     },
     {
-        name: "Graphic Design",
-        image: design,
+      name: "Graphic Design",
+      image: design,
     },
     {
-        name: "Illustration",
-        image: illustration,
+      name: "Illustration",
+      image: illustration,
     },
-   
   ]
 
   return (
     <section className="w-full py-20 bg-white border-t border-b border-gray-200">
       <div className="max-w-6xl mx-auto px-4 mb-12 text-center">
-        <h2 className="text-5xl md:text-6xl font-bold mb-6" style={{ fontFamily: "var(--secondary-font)" }}>
+        <h2 className="text-5xl md:text-6xl font-bold mb-6" style={{
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: 500,
+          fontSize: "64px",
+          lineHeight: "160%",
+          letterSpacing: "0%",
+          color: "#000000",
+        }}>
           You can learn to become anyone
         </h2>
-        <p className="text-xl md:text-2xl max-w-4xl mx-auto">
+        <p className="text-xl md:text-2xl max-w-4xl mx-auto" style={{
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: 500,
+          fontSize: "22px",
+          lineHeight: "160%",
+          letterSpacing: "0%",
+          color: "#000000"
+        }}>
           We believe everyone has something to share — and something to learn. Teach what you know, learn what you want.
         </p>
       </div>
@@ -128,7 +141,12 @@ export default function CarouselSection() {
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-0 left-0 p-6">
-                <h3 className="text-white text-2xl font-bold drop-shadow-lg">{category.name}</h3>
+                <h3
+                  className="text-white text-2xl font-bold drop-shadow-lg"
+                  style={{ fontFamily: "Poppins, sans-serif" }}
+                >
+                  {category.name}
+                </h3>
               </div>
             </div>
           ))}
