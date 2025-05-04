@@ -56,14 +56,17 @@ export default function HomePage() {
   const handleSearchChange = (value) => {
     setSearchName(value);
 
-    // If the search input is empty, reset to the full user list
-    if (!value || value.length < 3) {
-      onFilter({ skill: [], level: '', type: '' }); // Reset filters and show all users
-      return;
-    }
+    // Debounce the filtering logic
+    clearTimeout(window.searchTimeout);
+    window.searchTimeout = setTimeout(() => {
+      if (!value.trim()) {
+        setUsers(data.users); // Reset to the full user list
+        return;
+      }
 
-    // Filter users by name and combine with existing filters
-    onFilter({ skill: [], level: '', type: '' }); // Pass empty filters for now
+      // Filter users by name and combine with existing filters
+      onFilter({ skill: [], level: '', type: '' }); // Pass empty filters for now
+    }, 300); // Adjust debounce delay as needed
   };
 
   const onFilter = (filterObject) => {
@@ -140,7 +143,7 @@ export default function HomePage() {
         <h1 className="text-2xl font-bold mb-6 text-pink-700">Meet new people</h1>
         <div className="flex flex-col md:flex-row gap-6">
           {/* Sidebar with filters */}
-          <aside className="md:w-1/4 lg:w-1/5 bg-white dark:bg-gray-800 rounded-lg p-4 h-fit md:sticky top-24">
+          <aside className="md:w-1/3 lg:w-1/4 bg-white dark:bg-gray-800 rounded-lg p-4 h-fit md:sticky top-24">
             <FilterSkill
               data={data}
               onFilter={onFilter}
@@ -151,7 +154,7 @@ export default function HomePage() {
           </aside>
 
           {/* Main content area */}
-          <div className="flex-1">
+          <div className="flex-1 min-h-[500px]">
             {users.length === 0 ? (
               <div className="text-center text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 shadow-md rounded-lg p-8">
                 <p className="text-lg font-semibold">No results found.</p>
