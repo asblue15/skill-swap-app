@@ -99,14 +99,14 @@ export default function Nav() {
               >
                 My Matches
               </NavLink>
-              <NavLink
+              {/* <NavLink
                 to="/connections"
                 className={({ isActive }) =>
                   `px-4 py-2 hover:bg-pink-50 rounded ${isActive ? 'bg-pink-100 font-semibold' : ''}`
                 }
               >
                 Connections
-              </NavLink>
+              </NavLink> */}
               <NavLink
                 to="/contact-us"
                 className={({ isActive }) =>

@@ -185,9 +185,34 @@ export default function MatchesPage() {
         </div>
 
         {!hasRelevantMatches ? (
+          // <div className="text-center py-12 bg-white rounded-lg shadow">
+          //   <svg
+          //     className="mx-auto h-16 w-16 text-gray-400"
+          //     fill="none"
+          //     stroke="currentColor"
+          //     viewBox="0 0 24 24"
+          //     xmlns="http://www.w3.org/2000/svg"
+          //   >
+          //     <path
+          //       strokeLinecap="round"
+          //       strokeLinejoin="round"
+          //       strokeWidth="2"
+          //       d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          //     ></path>
+          //   </svg>
+          //   <h2 className="mt-4 text-xl font-medium text-gray-900">No matches found yet</h2>
+          //   <p className="mt-2 text-gray-500">Browse all users to find your perfect match</p>
+          //   <Link
+          //     to="/"
+          //     className="mt-6 inline-flex items-center px-4 py-2 border border-pink-800 text-sm font-medium rounded-md shadow-sm bg-transparent hover:bg-pink-50"
+          //   >
+          //     Back to Home
+          //   </Link>
+          // </div>
           <div className="text-center py-12 bg-white rounded-lg shadow">
+            {/* Icon - using the original SVG */}
             <svg
-              className="mx-auto h-16 w-16 text-gray-400"
+              className="mx-auto h-16 w-16 text-blue-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -200,13 +225,51 @@ export default function MatchesPage() {
                 d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               ></path>
             </svg>
-            <h2 className="mt-4 text-xl font-medium text-gray-900">No matches found yet</h2>
-            <p className="mt-2 text-gray-500">Browse all users to find your perfect match</p>
+
+            {/* Heading - slightly enhanced */}
+            <h2 className="mt-4 text-xl font-medium text-gray-900">No Skill Matches Found Yet</h2>
+
+            {/* Subheading - more encouraging */}
+            <p className="mt-2 text-gray-600">Your perfect skill exchange partner is out there!</p>
+
+            {/* Tips Section - new addition */}
+            <div className="mt-6 px-6 text-left">
+              <h3 className="text-md font-medium text-gray-800 mb-2">Quick Tips:</h3>
+              <ul className="text-sm text-gray-600 space-y-2">
+                <li className="flex items-start">
+                  <span className="text-blue-500 mr-2">•</span>
+                  Add more skills you can teach or want to learn
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-500 mr-2">•</span>
+                  Browse the community to find potential matches
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-500 mr-2">•</span>
+                  Be specific about your skill levels and experience
+                </li>
+              </ul>
+            </div>
+
             <Link
               to="/"
-              className="mt-6 inline-flex items-center px-4 py-2 border border-pink-800 text-sm font-medium rounded-md shadow-sm bg-transparent hover:bg-pink-50"
+              className="gap-2 mt-6 inline-flex items-center px-4 py-4 text-md border border-pink-100 bg-transparent font-bold rounded-md shadow-md hover:bg-pink-100"
             >
-              Back to Home
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
+                />
+              </svg>
+              Explore Community
             </Link>
           </div>
         ) : (
