@@ -8,7 +8,7 @@ import { useConnectionContext } from '../contexts/ConnectionContext';
 
 export default function MatchesPage() {
   const { user } = useUser();
-  const { userList } = useConnectionContext();
+  const { userList, user: connectedUser } = useConnectionContext();
   const [loading, setLoading] = useState(true);
   const [matches, setMatches] = useState({
     perfectMatches: [],
@@ -30,8 +30,19 @@ export default function MatchesPage() {
       try {
         // Get all users except current user
         const otherUsers = userList.filter((u) => u.id !== user.id);
-        // Process matches
-        const matchResults = findMatches(user, otherUsers);
+
+        // Get connected user IDs
+        const connectedUserIds = connectedUser?.connections || [];
+
+        const pendingSentIds = connectedUser?.requestSent?.map((request) => request.to) || [];
+        const pendingReceivedIds =
+          connectedUser?.requestReceived?.map((request) => request.from) || [];
+
+        const excludeUserIds = [...connectedUserIds, ...pendingSentIds, ...pendingReceivedIds];
+        const availableUsers = otherUsers.filter((u) => !excludeUserIds.includes(u.id));
+
+        // Process matches with available users only
+        const matchResults = findMatches(user, availableUsers);
 
         const { perfectMatches, goodMatches } = matchResults;
         setMatches({ perfectMatches, goodMatches });
@@ -72,10 +83,11 @@ export default function MatchesPage() {
       }
     };
 
-    if (user && userList) {
+    if (user && userList && connectedUser) {
+      // Make sure connections is available
       fetchMatches();
     }
-  }, [user, userList]);
+  }, [user, userList, connectedUser]);
 
   // Find matches between current user and other users
   const findMatches = (currentUser, otherUsers) => {
@@ -185,92 +197,118 @@ export default function MatchesPage() {
         </div>
 
         {!hasRelevantMatches ? (
-          // <div className="text-center py-12 bg-white rounded-lg shadow">
-          //   <svg
-          //     className="mx-auto h-16 w-16 text-gray-400"
-          //     fill="none"
-          //     stroke="currentColor"
-          //     viewBox="0 0 24 24"
-          //     xmlns="http://www.w3.org/2000/svg"
-          //   >
-          //     <path
-          //       strokeLinecap="round"
-          //       strokeLinejoin="round"
-          //       strokeWidth="2"
-          //       d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          //     ></path>
-          //   </svg>
-          //   <h2 className="mt-4 text-xl font-medium text-gray-900">No matches found yet</h2>
-          //   <p className="mt-2 text-gray-500">Browse all users to find your perfect match</p>
-          //   <Link
-          //     to="/"
-          //     className="mt-6 inline-flex items-center px-4 py-2 border border-pink-800 text-sm font-medium rounded-md shadow-sm bg-transparent hover:bg-pink-50"
-          //   >
-          //     Back to Home
-          //   </Link>
-          // </div>
           <div className="text-center py-12 bg-white rounded-lg shadow">
-            {/* Icon - using the original SVG */}
-            <svg
-              className="mx-auto h-16 w-16 text-blue-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
+            <img
+              src="/images/2.png"
+              alt="No matches"
+              className="mx-auto mt-2 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
+            />
+            <h2 className="mt-4 text-xl font-medium text-gray-700">No matches found</h2>
+            <p className="mt-2 text-md font-light text-gray-700">
+              We couldn't find any profiles matching your current criteria.
+            </p>
 
-            {/* Heading - slightly enhanced */}
-            <h2 className="mt-4 text-xl font-medium text-gray-900">No Skill Matches Found Yet</h2>
+            {/* Quick Tip to guide users */}
+            <div className="mt-6 mx-auto px-2 py-4 rounded-lg max-w-sm bg-gray-100">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="#F3C623"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"
+                  />
+                </svg>
+                <h3 className="text-md font-semibold text-gray-800">Improve your matches</h3>
+              </div>
 
-            {/* Subheading - more encouraging */}
-            <p className="mt-2 text-gray-600">Your perfect skill exchange partner is out there!</p>
-
-            {/* Tips Section - new addition */}
-            <div className="mt-6 px-6 text-left">
-              <h3 className="text-md font-medium text-gray-800 mb-2">Quick Tips:</h3>
-              <ul className="text-sm text-gray-600 space-y-2">
-                <li className="flex items-start">
-                  <span className="text-blue-500 mr-2">•</span>
-                  Add more skills you can teach or want to learn
+              <ul className="text-sm text-gray-600 space-y-2 mx-auto max-w-xs">
+                <li className="flex items-start gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-5 flex-shrink-0 text-gray-500"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+                    />
+                  </svg>
+                  <span>Add more skills</span>
                 </li>
-                <li className="flex items-start">
-                  <span className="text-blue-500 mr-2">•</span>
-                  Browse the community to find potential matches
+                <li className="flex items-start gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-5 flex-shrink-0 text-gray-500"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+                    />
+                  </svg>
+                  <span>Add a clear avatar</span>
                 </li>
-                <li className="flex items-start">
-                  <span className="text-blue-500 mr-2">•</span>
-                  Be specific about your skill levels and experience
+                <li className="flex items-start gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-5 flex-shrink-0 text-gray-500"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+                    />
+                  </svg>
+                  <span>Be specific about your levels</span>
                 </li>
               </ul>
-            </div>
 
-            <Link
-              to="/"
-              className="gap-2 mt-6 inline-flex items-center px-4 py-4 text-md border border-pink-100 bg-transparent font-bold rounded-md shadow-md hover:bg-pink-100"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
+              <div className="flex items-center gap-3 my-3">
+                <hr className="flex-grow border-gray-200" />
+                <span className="text-gray-500 text-sm font-medium">or</span>
+                <hr className="flex-grow border-gray-200" />
+              </div>
+
+              <Link
+                to="/"
+                className="gap-2 inline-flex items-center justify-center px-4 py-2 text-pink-600 border border-pink-200 rounded-md shadow-sm bg-white hover:shadow-pink-600 transition-colors duration-200"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
-                />
-              </svg>
-              Explore Community
-            </Link>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
+                  />
+                </svg>
+                Explore Community
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="space-y-10">
@@ -292,7 +330,6 @@ export default function MatchesPage() {
                     </Tooltip>
                   </div>
                 </div>
-                {/* <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"> */}
                 <div className="flex overflow-x-auto p-4 space-x-4">
                   {matches.perfectMatches.map((match) => (
                     <div
@@ -320,13 +357,10 @@ export default function MatchesPage() {
                       One-Way Match
                     </span>
                     <Tooltip show={showGoodTooltip}>
-                      <p className="text-lg">
-                        You can teach them OR they can teach you, but not both.
-                      </p>
+                      <p className="text-lg">You can teach them OR they can teach you, not both.</p>
                     </Tooltip>
                   </div>
                 </div>
-                {/* <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"> */}
                 <div className="flex overflow-x-auto p-4 space-x-4">
                   {matches.goodMatches.map((match) => (
                     <div
